@@ -123,3 +123,6 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# user model
+AUTH_USER_MODEL = 'tp_app.User'
