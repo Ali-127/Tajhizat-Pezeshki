@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
     'tp_app',
 ]
 
@@ -125,4 +126,4 @@ MEDIA_URL = '/media/'
 STATIC_URL = 'static/'
 
 # user model
-AUTH_USER_MODEL = 'tp_app.User'
+AUTH_USER_MODEL = 'users.User'
