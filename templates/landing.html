@@ -2807,7 +2807,7 @@
               دنیا
             </p>
             <div class="hero-btns">
-              <a href="#" class="btn-primary">مشاهده محصولات</a>
+              <a href="{% url 'shop' %}" class="btn-primary">مشاهده محصولات</a>
               <a href="#" class="btn-secondary">دریافت مشاوره</a>
             </div>
           </div>
@@ -2859,7 +2859,7 @@
               <li>دستگاه ساکشن</li>
               <li>تخت بیمارستانی</li>
             </ul>
-            <a href="#" class="btn">مشاهده همه</a>
+            <a href="{% url 'shop' %}" class="btn">مشاهده همه</a>
           </div>
           <div class="card-image">
             <img src="/media/alaeme hayati.jpeg" alt="medical" />
@@ -2874,7 +2874,7 @@
               <li>رادیوگرافی (RVG)</li>
               <li>ابزار و تجهیزات جانبی</li>
             </ul>
-            <a href="#" class="btn">مشاهده همه</a>
+            <a href="{% url 'shop' %}" class="btn">مشاهده همه</a>
           </div>
           <div class="card-image">
             <img src="/media/sandale dandan.jpeg" alt="dental" />
@@ -2889,7 +2889,7 @@
               <li>انکوباتور</li>
               <li>تجهیزات عمومی</li>
             </ul>
-            <a href="#" class="btn">مشاهده همه</a>
+            <a href="{% url 'shop' %}" class="btn">مشاهده همه</a>
           </div>
           <div class="card-image">
             <img src="/media/santerfiyuzh.jpeg" alt="lab" />
@@ -2905,9 +2905,12 @@
           <i class="fa-solid fa-chevron-right"></i>
         </button>
         <div class="slider-track" id="specialSlider">
+          {% for product in special_products %}
           <div class="product-card">
             <div class="img-wrapper">
-              <img src="/media/otocluvesade.jpeg" alt="اتوکلاو" />
+              {% if product.image %}
+              <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+              {% endif %}
               <div class="img-overlay">
                 <button class="icon-btn" title="مشاهده سریع">
                   <i class="fas fa-eye"></i>
@@ -2920,86 +2923,13 @@
                 </button>
               </div>
             </div>
-            <h3>اتوکلاو 23 لیتری</h3>
-            <span>W&H</span>
+            <h3>{{ product.name }}</h3>
+            <span>{{ product.brand.name }}</span>
             <a href="#">جزئیات بیشتر +</a>
           </div>
-          <div class="product-card">
-            <div class="img-wrapper">
-              <img src="/media/sandale dandan.jpeg" alt="یونیت" />
-              <div class="img-overlay">
-                <button class="icon-btn" title="مشاهده سریع">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به علاقه‌مندی">
-                  <i class="far fa-heart"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به سبد خرید">
-                  <i class="fas fa-shopping-cart"></i>
-                </button>
-              </div>
-            </div>
-            <h3>یونیت دندانپزشکی S300</h3>
-            <span>CASTELLINI</span>
-            <a href="#">جزئیات بیشتر +</a>
-          </div>
-          <div class="product-card">
-            <div class="img-wrapper">
-              <img src="/media/manitor.jpeg" alt="مانیتور" />
-              <div class="img-overlay">
-                <button class="icon-btn" title="مشاهده سریع">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به علاقه‌مندی">
-                  <i class="far fa-heart"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به سبد خرید">
-                  <i class="fas fa-shopping-cart"></i>
-                </button>
-              </div>
-            </div>
-            <h3>مانیتور علائم حیاتی</h3>
-            <span>MINDRAY</span>
-            <a href="#">جزئیات بیشتر +</a>
-          </div>
-          <div class="product-card">
-            <div class="img-wrapper">
-              <img src="/media/radiyography.jpeg" alt="رادیوگرافی" />
-              <div class="img-overlay">
-                <button class="icon-btn" title="مشاهده سریع">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به علاقه‌مندی">
-                  <i class="far fa-heart"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به سبد خرید">
-                  <i class="fas fa-shopping-cart"></i>
-                </button>
-              </div>
-            </div>
-            <h3>رادیوگرافی دیواری</h3>
-            <span>ACTEON</span>
-            <a href="#">جزئیات بیشتر +</a>
-          </div>
-          <div class="product-card">
-            <div class="img-wrapper">
-              <img src="/media/suction.jpeg" alt="ساکشن" />
-              <div class="img-overlay">
-                <button class="icon-btn" title="مشاهده سریع">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به علاقه‌مندی">
-                  <i class="far fa-heart"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به سبد خرید">
-                  <i class="fas fa-shopping-cart"></i>
-                </button>
-              </div>
-            </div>
-            <h3>دستگاه ساکشن جراحی</h3>
-            <span>YUWELL</span>
-            <a href="#">جزئیات بیشتر +</a>
-          </div>
+          {% empty %}
+          <p>هنوز محصولی ثبت نشده است.</p>
+          {% endfor %}
         </div>
         <button class="arrow next" id="specialNext">
           <i class="fa-solid fa-chevron-left"></i>
@@ -3087,32 +3017,18 @@
     <section class="articles-section">
       <div class="section-title"><h2>آخرین مقالات</h2></div>
       <div class="articles-grid">
+        {% for post in latest_posts %}
         <div class="article-card">
-          <img src="/media/magale1.jpeg" alt="" />
+          <img src="/media/magale{{ forloop.counter }}.jpeg" alt="{{ post.title }}" />
           <div class="article-content">
-            <h3>راهنمای انتخاب اتوکلاو مناسب</h3>
-            <p>
-              با نکات مهم در انتخاب اتوکلاو مناسب برای مطب و کلینیک آشنا شوید.
-            </p>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.content|truncatewords:18 }}</p>
             <a href="#">مطالعه بیشتر <i class="fa-solid fa-arrow-left"></i></a>
           </div>
         </div>
-        <div class="article-card">
-          <img src="/media/magale2.jpeg" alt="" />
-          <div class="article-content">
-            <h3>نکات نگهداری یونیت دندانپزشکی</h3>
-            <p>چگونه عمر مفید تجهیزات یونیت دندانپزشکی را افزایش دهیم.</p>
-            <a href="#">مطالعه بیشتر <i class="fa-solid fa-arrow-left"></i></a>
-          </div>
-        </div>
-        <div class="article-card">
-          <img src="/media/magale3.jpeg" alt="" />
-          <div class="article-content">
-            <h3>اهمیت مانیتور علائم حیاتی</h3>
-            <p>بررسی نقش و کاربرد مانیتور علائم حیاتی در مراکز درمانی</p>
-            <a href="#">مطالعه بیشتر <i class="fa-solid fa-arrow-left"></i></a>
-          </div>
-        </div>
+        {% empty %}
+        <p>هنوز مقاله‌ای ثبت نشده است.</p>
+        {% endfor %}
       </div>
       <div class="consult-box">
         <div class="consult-content">
@@ -3142,10 +3058,13 @@
           ❮
         </button>
         <div class="products-slider" id="slider">
+          {% for product in latest_products %}
           <div class="product-card">
             <span class="badge">جدید</span>
             <div class="img-wrapper">
-              <img src="/media/dandanmiz.jpeg" alt="یونیت دندانپزشکی S300" />
+              {% if product.image %}
+              <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+              {% endif %}
               <div class="img-overlay">
                 <button class="icon-btn" title="مشاهده سریع">
                   <i class="fas fa-eye"></i>
@@ -3155,10 +3074,10 @@
                 </button>
               </div>
             </div>
-            <span class="category">یونیت دندانپزشکی</span>
-            <h3>یونیت دندانپزشکی S300</h3>
-            <span class="brand">CASTELLINI</span>
-            <div class="price">۴۸۵,۰۰۰,۰۰۰ تومان</div>
+            <span class="category">{{ product.category.name }}</span>
+            <h3>{{ product.name }}</h3>
+            <span class="brand">{{ product.brand.name }}</span>
+            <div class="price">{{ product.price|floatformat:0 }} تومان</div>
             <div class="card-footer">
               <button class="detail-btn">مشاهده جزئیات</button>
               <button class="cart-btn" title="افزودن به سبد خرید">
@@ -3166,108 +3085,12 @@
               </button>
             </div>
           </div>
-          <div class="product-card">
-            <span class="badge">جدید</span>
-            <div class="img-wrapper">
-              <img src="/media/otocluve.jpeg" alt="اتوکلاو کلاس B" />
-              <div class="img-overlay">
-                <button class="icon-btn" title="مشاهده سریع">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به علاقه‌مندی">
-                  <i class="far fa-heart"></i>
-                </button>
-              </div>
-            </div>
-            <span class="category">تجهیزات استریل</span>
-            <h3>اتوکلاو کلاس B</h3>
-            <span class="brand">W&H</span>
-            <div class="price">۱۳۵,۰۰۰,۰۰۰ تومان</div>
-            <div class="card-footer">
-              <button class="detail-btn">مشاهده جزئیات</button>
-              <button class="cart-btn" title="افزودن به سبد خرید">
-                <i class="fas fa-shopping-cart"></i>
-              </button>
-            </div>
-          </div>
-          <div class="product-card">
-            <span class="badge">جدید</span>
-            <div class="img-wrapper">
-              <img
-                src="/media/dasgahalaemhayati.jpeg"
-                alt="مانیتور علائم حیاتی D12"
-              />
-              <div class="img-overlay">
-                <button class="icon-btn" title="مشاهده سریع">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به علاقه‌مندی">
-                  <i class="far fa-heart"></i>
-                </button>
-              </div>
-            </div>
-            <span class="category">تجهیزات پزشکی</span>
-            <h3>مانیتور علائم حیاتی D12</h3>
-            <span class="brand">MINDRAY</span>
-            <div class="price">۸۵,۰۰۰,۰۰۰ تومان</div>
-            <div class="card-footer">
-              <button class="detail-btn">مشاهده جزئیات</button>
-              <button class="cart-btn" title="افزودن به سبد خرید">
-                <i class="fas fa-shopping-cart"></i>
-              </button>
-            </div>
-          </div>
-          <div class="product-card">
-            <span class="badge">جدید</span>
-            <div class="img-wrapper">
-              <img src="/media/radio.jpeg" alt="رادیوگرافی دیواری AC70" />
-              <div class="img-overlay">
-                <button class="icon-btn" title="مشاهده سریع">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به علاقه‌مندی">
-                  <i class="far fa-heart"></i>
-                </button>
-              </div>
-            </div>
-            <span class="category">تصویربرداری دندانپزشکی</span>
-            <h3>رادیوگرافی دیواری AC70</h3>
-            <span class="brand">ACTEON</span>
-            <div class="price">۱۹۵,۰۰۰,۰۰۰ تومان</div>
-            <div class="card-footer">
-              <button class="detail-btn">مشاهده جزئیات</button>
-              <button class="cart-btn" title="افزودن به سبد خرید">
-                <i class="fas fa-shopping-cart"></i>
-              </button>
-            </div>
-          </div>
-          <div class="product-card">
-            <span class="badge">جدید</span>
-            <div class="img-wrapper">
-              <img src="/media/suctiondastgah.jpeg" alt="ساکشن جراحی" />
-              <div class="img-overlay">
-                <button class="icon-btn" title="مشاهده سریع">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به علاقه‌مندی">
-                  <i class="far fa-heart"></i>
-                </button>
-              </div>
-            </div>
-            <span class="category">تجهیزات پزشکی</span>
-            <h3>ساکشن جراحی</h3>
-            <span class="brand">YUWELL</span>
-            <div class="price">۲۵,۰۰۰,۰۰۰ تومان</div>
-            <div class="card-footer">
-              <button class="detail-btn">مشاهده جزئیات</button>
-              <button class="cart-btn" title="افزودن به سبد خرید">
-                <i class="fas fa-shopping-cart"></i>
-              </button>
-            </div>
-          </div>
+          {% empty %}
+          <p>هنوز محصولی ثبت نشده است.</p>
+          {% endfor %}
         </div>
       </div>
-      <div class="all-btn"><a href="#">مشاهده همه محصولات</a></div>
+      <div class="all-btn"><a href="{% url 'shop' %}">مشاهده همه محصولات</a></div>
     </section>
 
     <section class="about-section">
@@ -3296,7 +3119,7 @@
               <span>مشتری سازمانی</span>
             </div>
           </div>
-          <a href="#" class="about-btn"> بیشتر درباره ما <span>←</span> </a>
+          <a href="{% url 'about' %}" class="about-btn"> بیشتر درباره ما <span>←</span> </a>
         </div>
         <div class="about-gallery">
           <div class="main-image">

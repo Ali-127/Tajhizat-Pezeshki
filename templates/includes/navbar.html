@@ -6,7 +6,7 @@
     </div>
     <div class="topbar-left">
       <i class="fa-solid fa-user"></i>
-      <a href="#" class="auth-btn">ورود</a>
+      <a href="{% url 'landing' %}" class="auth-btn">ورود</a>
       <a href="#" class="auth-btn register">ثبت نام</a>
     </div>
   </div>
@@ -22,12 +22,12 @@
     </div>
     <nav id="navMenu">
       <ul>
-        <li><a href="#">خانه</a></li>
-        <li><a href="#">محصولات</a></li>
-        <li><a href="#">تجهیزات پزشکی</a></li>
-        <li><a href="#">دندانپزشکی</a></li>
+        <li><a href="{% url 'landing' %}">خانه</a></li>
+        <li><a href="{% url 'shop' %}">محصولات</a></li>
+        <li><a href="{% url 'shop' %}">تجهیزات پزشکی</a></li>
+        <li><a href="{% url 'shop' %}">دندانپزشکی</a></li>
         <li><a href="#">برندها</a></li>
-        <li><a href="#">وبلاگ</a></li>
+        <li><a href="{% url 'blog' %}">وبلاگ</a></li>
         <li><a href="#">تماس</a></li>
       </ul>
     </nav>
