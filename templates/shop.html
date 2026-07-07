@@ -1148,27 +1148,27 @@
     <section class="categories">
         <div class="container">
             <div class="category-box">
-                <a href="#" class="category-item active">
+                <a href="{% url 'shop' %}?{% if category_query %}{{ category_query }}&{% endif %}category=" class="category-item{% if not selected_category %} active{% endif %}">
                     <i class="fa-solid fa-border-all"></i>
                     <span>همه محصولات</span>
                 </a>
-                <a href="#" class="category-item">
+                <a href="{% url 'shop' %}?{% if category_query %}{{ category_query }}&{% endif %}category=dental-equipment" class="category-item{% if selected_category == 'dental-equipment' %} active{% endif %}">
                     <i class="fa-solid fa-tooth"></i>
                     <span>تجهیزات دندانپزشکی</span>
                 </a>
-                <a href="#" class="category-item">
+                <a href="{% url 'shop' %}?{% if category_query %}{{ category_query }}&{% endif %}category=medical-equipment" class="category-item{% if selected_category == 'medical-equipment' %} active{% endif %}">
                     <i class="fa-solid fa-gear"></i>
                     <span>تجهیزات پزشکی</span>
                 </a>
-                <a href="#" class="category-item">
+                <a href="{% url 'shop' %}?{% if category_query %}{{ category_query }}&{% endif %}category=lab-equipment" class="category-item{% if selected_category == 'lab-equipment' %} active{% endif %}">
                     <i class="fa-solid fa-flask"></i>
                     <span>تجهیزات آزمایشگاهی</span>
                 </a>
-                <a href="#" class="category-item">
+                <a href="{% url 'shop' %}?{% if category_query %}{{ category_query }}&{% endif %}category=imaging-equipment" class="category-item{% if selected_category == 'imaging-equipment' %} active{% endif %}">
                     <i class="fa-solid fa-camera"></i>
                     <span>تصویربرداری</span>
                 </a>
-                <a href="#" class="category-item">
+                <a href="{% url 'shop' %}?{% if category_query %}{{ category_query }}&{% endif %}category=consumable-equipment" class="category-item{% if selected_category == 'consumable-equipment' %} active{% endif %}">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span>تجهیزات مصرفی</span>
                 </a>
@@ -1184,7 +1184,7 @@
             <i class="fa-solid fa-sliders"></i> <span>فیلترها</span>
         </button>
 
-        <form method="get" action="{% url 'shop' %}">
+        <form id="shopFiltersForm" method="get" action="{% url 'shop' %}">
             <div class="main-wrapper">
                 <aside class="sidebar" id="sidebar">
                     <div class="sidebar-section">
@@ -1369,19 +1369,26 @@
             }
         }
 
-        document.querySelector('.apply-filter-btn').addEventListener('click', function() {
-            alert('فیلترها اعمال شدند! (منطق فیلتراسیون واقعی نیازمند بک‌اند است)');
-        });
-
         document.querySelector('.sort-select').addEventListener('change', function() {
-            alert(`لیست بر اساس "${this.value}" مرتب شد.`);
+            this.form.submit();
         });
 
-        document.querySelector('.clear-filters-btn').addEventListener('click', function() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"], input[type="radio"]');
-            checkboxes.forEach(box => box.checked = false);
-            alert('همه فیلترها پاک شدند');
-        });
+        function clearFilters() {
+            const form = document.getElementById('shopFiltersForm');
+            if (!form) return;
+
+            form.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+                input.checked = false;
+            });
+            form.querySelectorAll('input[type="text"]').forEach(input => {
+                input.value = '';
+            });
+            form.querySelectorAll('select').forEach(select => {
+                select.selectedIndex = 0;
+            });
+
+            window.location.href = form.action;
+        }
 
         document.getElementById('brandSearch').addEventListener('input', function() {
             const term = this.value.toLowerCase();

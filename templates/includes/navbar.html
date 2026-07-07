@@ -24,8 +24,14 @@
       <ul>
         <li><a href="{% url 'landing' %}">خانه</a></li>
         <li><a href="{% url 'shop' %}">محصولات</a></li>
-        <li><a href="{% url 'shop' %}">تجهیزات پزشکی</a></li>
-        <li><a href="{% url 'shop' %}">دندانپزشکی</a></li>
+        <li>
+          <a href="{% url 'shop' %}?category=medical-equipment"
+            >تجهیزات پزشکی</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'shop' %}?category=dental-equipment">دندانپزشکی</a>
+        </li>
         <li><a href="#">برندها</a></li>
         <li><a href="{% url 'blog' %}">وبلاگ</a></li>
         <li><a href="#">تماس</a></li>
