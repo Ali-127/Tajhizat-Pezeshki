@@ -24,9 +24,14 @@ class Brand(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=250)
-    price = models.DecimalField(decimal_places=2, max_digits=10)
+    price = models.DecimalField(decimal_places=2, max_digits=12)
     image = models.ImageField(upload_to="product-pics/", blank=True, null=True)
     stock = models.PositiveIntegerField(default=0)
+    sold_count = models.PositiveIntegerField(default=0)
+    warranty = models.BooleanField(default=False)
+    after_sales = models.BooleanField(default=False)
+    fast_delivery = models.BooleanField(default=False)
+    installation_training = models.BooleanField(default=False)
     category = models.ForeignKey(
         Category,
         on_delete=models.PROTECT,

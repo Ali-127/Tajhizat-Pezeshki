@@ -1183,285 +1183,148 @@
         <button class="mobile-filter-btn" onclick="toggleSidebar()">
             <i class="fa-solid fa-sliders"></i> <span>فیلترها</span>
         </button>
-    
-        <div class="main-wrapper">
-            <aside class="sidebar" id="sidebar">
-                <div class="sidebar-section">
-                    <div class="sidebar-title"><i class="fa-solid fa-list-ul"></i> دسته بندی محصولات</div>
-                    <ul class="category-list">
-                        <li><span>همه محصولات</span><span class="category-count">۵۴۸</span></li>
-                        <li><span>تجهیزات دندانپزشکی</span><span class="category-count">۲۳۵</span></li>
-                        <li><span>تجهیزات پزشکی</span><span class="category-count">۱۸۹</span></li>
-                        <li><span>تجهیزات آزمایشگاهی</span><span class="category-count">۹۸</span></li>
-                        <li><span>تصویربرداری</span><span class="category-count">۳۸</span></li>
-                        <li><span>تجهیزات مصرفی</span><span class="category-count">۷۵</span></li>
-                    </ul>
-                </div>
-    
-                <div class="sidebar-section">
-                    <div class="sidebar-title"><i class="fa-solid fa-tag"></i> فیلتر بر اساس برند</div>
-                    <div class="search-icon-box">
-                        <input type="text" id="brandSearch" placeholder="جستجوی برند ...">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
-                    <div class="brand-item"><label><input type="checkbox"> WBH</label><span class="brand-count">۵۲</span></div>
-                    <div class="brand-item"><label><input type="checkbox"> Castellini</label><span class="brand-count">۴۷</span></div>
-                    <div class="brand-item"><label><input type="checkbox"> Mindray</label><span class="brand-count">۳۸</span></div>
-                    <div class="brand-item"><label><input type="checkbox"> Acteon</label><span class="brand-count">۳۲</span></div>
-                    <div class="brand-item"><label><input type="checkbox"> Yuweli</label><span class="brand-count">۲۱</span></div>
-                    <a href="#" class="see-more">مشاهده بیشتر <i class="fa-solid fa-chevron-left"></i></a>
-                </div>
-    
-                <div class="sidebar-section">
-                    <div class="sidebar-title"><i class="fa-solid fa-arrow-up-wide-short"></i> فیلتر بر اساس قیمت</div>
-                    <div class="price-inputs">
-                        <input type="text" value="۰" placeholder="از">
-                        <input type="text" value="۵۰,۰۰۰,۰۰۰" placeholder="تا">
-                    </div>
-                    <div class="range-slider-container">
-                        <input type="range" min="0" max="100" value="15" id="minPrice">
-                        <input type="range" min="0" max="100" value="85" id="maxPrice">
-                    </div>
-                    <button class="apply-filter-btn">اعمال فیلتر <i class="fa-solid fa-check"></i></button>
-                </div>
-    
-                <div class="sidebar-section">
-                    <div class="sidebar-title"><i class="fa-solid fa-boxes-stacked"></i> وضعیت موجودی</div>
-                    <div class="filter-radio-item"><label><input type="radio" name="stock"> موجود</label><span class="filter-count">۵۷۱</span></div>
-                    <div class="filter-radio-item"><label><input type="radio" name="stock"> ناموجود</label><span class="filter-count">۲۷</span></div>
-                </div>
-    
-                <div class="sidebar-section">
-                    <div class="sidebar-title"><i class="fa-solid fa-check-double"></i> فیلتر بر اساس ویژگی</div>
-                    <div class="filter-check-item"><label><input type="checkbox"> گارانتی معتبر</label></div>
-                    <div class="filter-check-item"><label><input type="checkbox"> خدمات پس از فروش</label></div>
-                    <div class="filter-check-item"><label><input type="checkbox"> ارسال سریع</label></div>
-                    <div class="filter-check-item"><label><input type="checkbox"> نصب و آموزش رایگان</label></div>
-                </div>
-    
-                <button class="clear-filters-btn"><i class="fa-solid fa-trash-can"></i> پاک کردن فیلترها</button>
-            </aside>
-    
-            <div class="main-content">
-                <div class="toolbar">
-                    <div class="count-label">نمایش ۱-۱۳ از ۵۴۸ محصول</div>
-                    <div class="toolbar-left">
-                        <select class="sort-select">
-                            <option>جدیدترین</option>
-                            <option>پر فروش ترین</option>
-                            <option>ارزان ترین</option>
-                            <option>گران ترین</option>
-                        </select>
-                        <div class="view-toggles">
-                            <button class="view-btn active" onclick="setView('grid')" title="نمایش گرید"><i class="fa-solid fa-th-large"></i></button>
-                            <button class="view-btn" onclick="setView('list')" title="نمایش لیست"><i class="fa-solid fa-list-ul"></i></button>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="products-grid" id="productsGrid">
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/unitdandan.jpeg" alt="Product"></div>
-                        <div class="product-title">بونیت دندانپزشکی S300</div>
-                        <span class="product-brand">CASTELLINI</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> ۴.۸ (۳۳)</div>
-                        <div class="product-price">۲۷۵,۰۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-    
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/otocluve.jpeg" alt="Product"></div>
-                        <div class="product-title">اتوکلاو کلاس B3 لتری</div>
-                        <span class="product-brand">WBH</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i> ۴.۷ (۱۲)</div>
-                        <div class="product-price">۱۲۵,۰۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-    
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/alaeme hayati.jpeg" alt="Product"></div>
-                        <div class="product-title">مانیتور علائم حیاتی D12</div>
-                        <span class="product-brand">MINDRAY</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> ۴.۹ (۳۰)</div>
-                        <div class="product-price">۸۵,۰۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-    
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/radio.jpeg" alt="Product"></div>
-                        <div class="product-title">رادیوگرافی دیواری AC70</div>
-                        <span class="product-brand">ACTEON</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i> ۴.۵ (۱۲)</div>
-                        <div class="product-price">۱۹۵,۰۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-    
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/suction.jpeg" alt="Product"></div>
-                        <div class="product-title">ساکشن جراحی لتری</div>
-                        <span class="product-brand">YUWELL</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i> ۴.۵ (۲۷)</div>
-                        <div class="product-price">۲۵,۵۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-    
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/santerfiyuzh.jpeg" alt="Product"></div>
-                        <div class="product-title">سانتریفیوژ آزمایشگاهی</div>
-                        <span class="product-brand">LABOGENE</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i> ۴.۲ (۱۴)</div>
-                        <div class="product-price">۴۵,۰۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-    
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/dastgahECG.jpeg" alt="Product"></div>
-                        <div class="product-title">دستگاه ECG سه کاناله</div>
-                        <span class="product-brand">CONTEC</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> ۴.۸ (۲۳)</div>
-                        <div class="product-price">۵۹,۰۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-    
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/durbin dandan.jpeg" alt="Product"></div>
-                        <div class="product-title">دوربین داخل دهانی</div>
-                        <span class="product-brand">WOODPECKER</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i> ۴.۶ (۱۳)</div>
-                        <div class="product-price">۳۲,۸۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-    
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/mikroskop dandani.jpeg" alt="Product"></div>
-                        <div class="product-title">میکروسکوپ دندانپزشکی</div>
-                        <span class="product-brand">LABOMED</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> ۴.۹ (۱۱)</div>
-                        <div class="product-price">۳۸۵,۰۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-    
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/motor implant.jpeg" alt="Product"></div>
-                        <div class="product-title">مونیتور ایمپلنت</div>
-                        <span class="product-brand">NSK</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i> ۴.۲ (۱۴)</div>
-                        <div class="product-price">۱۷۸,۰۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-    
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/suction purtabl.jpeg" alt="Product"></div>
-                        <div class="product-title">ساکشن پرتابل</div>
-                        <span class="product-brand">YUWELL</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i> ۴.۶ (۱۰)</div>
-                        <div class="product-price">۱۸,۵۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-    
-                    <div class="product-card">
-                        <span class="product-badge">تخفیف</span>
-                        <div class="product-img-box"><img src="/media/LIGHTCIUR.jpeg" alt="Product"></div>
-                        <div class="product-title">الایت کیور LED</div>
-                        <span class="product-brand">WOODPECKER</span>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i> ۴.۷ (۹)</div>
-                        <div class="product-price">۹,۹۰۰,۰۰۰ تومان</div>
-                        <div class="product-actions">
-                            <button class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></button>
-                            <button class="action-btn fav-btn" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="pagination-wrapper">
-                    <button class="page-btn active">۱</button>
-                    <button class="page-btn">۲</button>
-                    <button class="page-btn">۳</button>
-                    <span class="pagination-dots">...</span>
-                    <button class="page-btn">۴۸</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-col contact-col">
-                <h3>اطلاعات تماس</h3>
-                <ul class="contact-list">
-                    <li><span>09372105008</span><i class="fa-solid fa-phone"></i></li>
-                    <li><span>09372108005</span><i class="fa-solid fa-mobile-screen"></i></li>
-                    <li><span>azaryazdan@gmail.com</span><i class="fa-regular fa-envelope"></i></li>
-                    <li><span>تبریز 17 شهریور جدید <br>جنب بانک ملت کوی نوبری جنب فروشگاه پالتار شرکت آدریزدان پلاک18</span><i class="fa-solid fa-location-dot"></i></li>
-                </ul>
-            </div>
-            <div class="footer-col"><h3>خدمات</h3><ul><li><a href="#">مشاوره تخصصی</a></li><li><a href="#">خدمات پس از فروش</a></li><li><a href="#">آموزش و نصب</a></li><li><a href="#">گارانتی و ضمانت</a></li><li><a href="#">پشتیبانی آنلاین</a></li></ul></div>
-            <div class="footer-col"><h3>دسترسی سریع</h3><ul><li><a href="#">صفحه اصلی</a></li><li><a href="#">درباره ما</a></li><li><a href="#">برندها</a></li><li><a href="#">مقالات</a></li><li><a href="#">سوالات متداول</a></li><li><a href="#">تماس با ما</a></li></ul></div>
-            <div class="footer-col"><h3>محصولات</h3><ul><li><a href="#">تجهیزات دندانپزشکی</a></li><li><a href="#">تجهیزات پزشکی</a></li><li><a href="#">تجهیزات آزمایشگاهی</a></li><li><a href="#">تجهیزات تصویربرداری</a></li><li><a href="#">تجهیزات استریل</a></li><li><a href="#">تجهیزات مصرفی</a></li></ul></div>
-            <div class="footer-col company-col">
-                <div class="logo">
-                    <div class="logo-icon"><i class="fa-solid fa-heart-circle-plus"></i></div>
-                    <div><h2>AZRYYAZDAN</h2><span>تجهیزات پزشکی و دندانپزشکی</span></div>
-                </div>
-                <p class="about-text">ارائه دهنده تجهیزات پزشکی و دندانپزشکی از برندهای معتبر جهانی با بهترین قیمت و خدمات پس از فروش</p>
-                <div class="socials">
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-telegram"></i></a>
-                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        <form method="get" action="{% url 'shop' %}">
+            <div class="main-wrapper">
+                <aside class="sidebar" id="sidebar">
+                    <div class="sidebar-section">
+                        <div class="sidebar-title"><i class="fa-solid fa-list-ul"></i> دسته بندی محصولات</div>
+                        <ul class="category-list">
+                            <li>
+                                <a href="?{% if category_query %}{{ category_query }}&{% endif %}category=" class="{% if not selected_category %}active{% endif %}">
+                                    <span>همه محصولات</span>
+                                    <span class="category-count">{{ products.paginator.count }}</span>
+                                </a>
+                            </li>
+                            {% for category in categories %}
+                            <li>
+                                <a href="?{% if category_query %}{{ category_query }}&{% endif %}category={{ category.slug }}" class="{% if selected_category == category.slug %}active{% endif %}">
+                                    <span>{{ category.name }}</span>
+                                    <span class="category-count">{{ category.count }}</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+    
+                    <div class="sidebar-section">
+                        <div class="sidebar-title"><i class="fa-solid fa-tag"></i> فیلتر بر اساس برند</div>
+                        <div class="search-icon-box">
+                            <input type="text" id="brandSearch" placeholder="جستجوی برند ...">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        {% for brand in brands %}
+                        <div class="brand-item">
+                            <label>
+                                <input type="checkbox" name="brand" value="{{ brand.slug }}" {% if brand.slug in selected_brands %}checked{% endif %}>
+                                {{ brand.name }}
+                            </label>
+                            <span class="brand-count">{{ brand.count }}</span>
+                        </div>
+                        {% empty %}
+                        <p>برندی یافت نشد.</p>
+                        {% endfor %}
+                        <a href="#" class="see-more">مشاهده بیشتر <i class="fa-solid fa-chevron-left"></i></a>
+                    </div>
+    
+                    <div class="sidebar-section">
+                        <div class="sidebar-title"><i class="fa-solid fa-arrow-up-wide-short"></i> فیلتر بر اساس قیمت</div>
+                        <div class="price-inputs">
+                            <input type="text" name="price_min" value="{{ price_min|default_if_none:'' }}" placeholder="از">
+                            <input type="text" name="price_max" value="{{ price_max|default_if_none:'' }}" placeholder="تا">
+                        </div>
+                        <div class="range-slider-container">
+                            <input type="range" min="0" max="100" value="15" id="minPrice">
+                            <input type="range" min="0" max="100" value="85" id="maxPrice">
+                        </div>
+                        <button type="submit" class="apply-filter-btn">اعمال فیلتر <i class="fa-solid fa-check"></i></button>
+                    </div>
+    
+                    <div class="sidebar-section">
+                        <div class="sidebar-title"><i class="fa-solid fa-boxes-stacked"></i> وضعیت موجودی</div>
+                        <div class="filter-radio-item">
+                            <label><input type="radio" name="stock" value="available" {% if stock == 'available' %}checked{% endif %}> موجود</label>
+                            <span class="filter-count">{{ products.paginator.count }}</span>
+                        </div>
+                        <div class="filter-radio-item">
+                            <label><input type="radio" name="stock" value="out_of_stock" {% if stock == 'out_of_stock' %}checked{% endif %}> ناموجود</label>
+                            <span class="filter-count">0</span>
+                        </div>
+                    </div>
+    
+                    <div class="sidebar-section">
+                        <div class="sidebar-title"><i class="fa-solid fa-check-double"></i> فیلتر بر اساس ویژگی</div>
+                        <div class="filter-check-item"><label><input type="checkbox" name="warranty" value="1" {% if warranty %}checked{% endif %}> گارانتی معتبر</label></div>
+                        <div class="filter-check-item"><label><input type="checkbox" name="after_sales" value="1" {% if after_sales %}checked{% endif %}> خدمات پس از فروش</label></div>
+                        <div class="filter-check-item"><label><input type="checkbox" name="fast_delivery" value="1" {% if fast_delivery %}checked{% endif %}> ارسال سریع</label></div>
+                        <div class="filter-check-item"><label><input type="checkbox" name="installation" value="1" {% if installation %}checked{% endif %}> نصب و آموزش رایگان</label></div>
+                    </div>
+    
+                    <button class="clear-filters-btn" type="button" onclick="clearFilters()"><i class="fa-solid fa-trash-can"></i> پاک کردن فیلترها</button>
+                </aside>
+    
+                <div class="main-content">
+                    <div class="toolbar">
+                        <div class="count-label">نمایش {{ page_obj.start_index }}-{{ page_obj.end_index }} از {{ page_obj.paginator.count }} محصول</div>
+                        <div class="toolbar-left">
+                            <select class="sort-select" name="sort" onchange="this.form.submit()">
+                                <option value="newest" {% if sort == 'newest' %}selected{% endif %}>جدیدترین</option>
+                                <option value="best_selling" {% if sort == 'best_selling' %}selected{% endif %}>پر فروش ترین</option>
+                                <option value="cheapest" {% if sort == 'cheapest' %}selected{% endif %}>ارزان ترین</option>
+                                <option value="expensive" {% if sort == 'expensive' %}selected{% endif %}>گران ترین</option>
+                            </select>
+                            <div class="view-toggles">
+                                <button type="button" class="view-btn active" onclick="setView('grid')" title="نمایش گرید"><i class="fa-solid fa-th-large"></i></button>
+                                <button type="button" class="view-btn" onclick="setView('list')" title="نمایش لیست"><i class="fa-solid fa-list-ul"></i></button>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="products-grid" id="productsGrid">
+                        {% for product in page_obj %}
+                        <div class="product-card">
+                            {% if product.sold_count >= 10 %}
+                            <span class="product-badge">تخفیف</span>
+                            {% endif %}
+                            <div class="product-img-box">
+                                {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                {% else %}
+                                <div class="empty-image">بدون تصویر</div>
+                                {% endif %}
+                            </div>
+                            <div class="product-title">{{ product.name }}</div>
+                            <span class="product-brand">{{ product.brand.name }}</span>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                ۴.۵ ({{ product.sold_count }})
+                            </div>
+                            <div class="product-price">{{ product.price|floatformat:0 }} تومان</div>
+                            <div class="product-actions">
+                                <button class="action-btn cart-btn" type="button"><i class="fa-solid fa-cart-shopping"></i></button>
+                                <button class="action-btn fav-btn" type="button" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>محصولی با شرایط انتخاب شده یافت نشد.</p>
+                        {% endfor %}
+                    </div>
+    
+                    <div class="pagination-wrapper">
+                        {% for item in page_numbers %}
+                            {% if item == '...' %}
+                            <span class="pagination-dots">...</span>
+                            {% else %}
+                            <a class="page-btn{% if page_obj.number == item %} active{% endif %}" href="?{% if base_query %}{{ base_query }}&{% endif %}page={{ item }}">{{ item }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <div class="footer-links"><a href="#">شرایط و قوانین</a><a href="#">سیاست حفظ حریم خصوصی</a></div>
-            <div class="copyright">© 1405 تمامی حقوق این وبسایت متعلق به شرکت مدی‌دنت می‌باشد.</div>
-        </div>
-        <a href="#" class="scroll-top" id="scrollTopBtn"><i class="fa-solid fa-arrow-up"></i></a>
-    </footer>
+    </form>
+
+    {% include 'includes/footer.html' %}
 
     <script>
         const hamburger = document.getElementById('hamburger');
