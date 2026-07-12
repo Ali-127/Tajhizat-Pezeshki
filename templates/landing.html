@@ -2925,7 +2925,7 @@
             </div>
             <h3>{{ product.name }}</h3>
             <span>{{ product.brand.name }}</span>
-            <a href="#">جزئیات بیشتر +</a>
+            <a href="{% url 'product_detail' product.id %}">جزئیات بیشتر +</a>
           </div>
           {% empty %}
           <p>هنوز محصولی ثبت نشده است.</p>
@@ -3079,7 +3079,7 @@
             <span class="brand">{{ product.brand.name }}</span>
             <div class="price">{{ product.price|floatformat:0 }} تومان</div>
             <div class="card-footer">
-              <button class="detail-btn">مشاهده جزئیات</button>
+              <a href="{% url 'product_detail' product.id %}" class="detail-btn">مشاهده جزئیات</a>
               <button class="cart-btn" title="افزودن به سبد خرید">
                 <i class="fas fa-shopping-cart"></i>
               </button>

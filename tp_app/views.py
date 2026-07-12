@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, Q
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from .models import BlogPost, Brand, Category, Product
 
@@ -144,6 +144,15 @@ def about_view(request):
 def blog_view(request):
   posts = BlogPost.objects.select_related('author').order_by('-created_at')
   return render(request=request, template_name='weblog.html', context={'posts': posts})
+
+
+def product_detail_view(request, product_id):
+  product = get_object_or_404(
+    Product.objects.select_related('brand', 'category'),
+    pk=product_id,
+    is_active=True,
+  )
+  return render(request=request, template_name='tkmhsul.html', context={'product': product})
 
 # def t_view(request):
 #   return render(request=request, template_name='shop.html')
