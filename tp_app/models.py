@@ -21,6 +21,17 @@ class Brand(models.Model):
         return self.name
 
 
+class BlogCategory(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name_plural = "Blog Categories"
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=250)
@@ -159,9 +170,23 @@ class TicketMessage(models.Model):
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
+    category = models.CharField(max_length=100, blank=True, null=True)
+    blog_category = models.ForeignKey(
+        BlogCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="blog_posts",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="blog_posts",
     )
+
+    @property
+    def display_category(self):
+        if self.blog_category:
+            return self.blog_category.name
+        return self.category or "مقاله"

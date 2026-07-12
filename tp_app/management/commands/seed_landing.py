@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.conf import settings
 
 from users.models import User
-from tp_app.models import Brand, Category, Product, BlogPost
+from tp_app.models import BlogCategory, Brand, Category, Product, BlogPost
 
 
 
@@ -128,10 +128,28 @@ class Command(BaseCommand):
                 },
             )
 
+        blog_categories = {
+            'مانیتورینگ': BlogCategory.objects.get_or_create(name='مانیتورینگ', defaults={'slug': 'monitoring'})[0],
+            'دندانپزشکی': BlogCategory.objects.get_or_create(name='دندانپزشکی', defaults={'slug': 'dentistry'})[0],
+            'آزمایشگاهی': BlogCategory.objects.get_or_create(name='آزمایشگاهی', defaults={'slug': 'laboratory'})[0],
+        }
+
         posts = [
-            {'title': 'راهنمای انتخاب مانیتور علائم حیاتی', 'content': 'در این مقاله به بررسی نکاتی می‌پردازیم که قبل از خرید مانیتور علائم حیاتی باید بدانید...'},
-            {'title': 'چگونه یونیت دندانپزشکی مناسب کلینیک خود را انتخاب کنیم؟', 'content': 'انتخاب یونیت مناسب نیازمند توجه به ergonomics، امکانات و خدمات پس از فروش است...'},
-            {'title': 'تجهیزات آزمایشگاهی استاندارد برای آزمایشگاه‌های تشخیص', 'content': 'در این متن، مهم‌ترین تجهیزات آزمایشگاهی و معیارهای استانداردسازی آن‌ها بررسی می‌شود...'},
+            {
+                'title': 'راهنمای انتخاب مانیتور علائم حیاتی',
+                'content': 'در این مقاله به بررسی نکاتی می‌پردازیم که قبل از خرید مانیتور علائم حیاتی باید بدانید...',
+                'category': blog_categories['مانیتورینگ'],
+            },
+            {
+                'title': 'چگونه یونیت دندانپزشکی مناسب کلینیک خود را انتخاب کنیم؟',
+                'content': 'انتخاب یونیت مناسب نیازمند توجه به ergonomics، امکانات و خدمات پس از فروش است...',
+                'category': blog_categories['دندانپزشکی'],
+            },
+            {
+                'title': 'تجهیزات آزمایشگاهی استاندارد برای آزمایشگاه‌های تشخیص',
+                'content': 'در این متن، مهم‌ترین تجهیزات آزمایشگاهی و معیارهای استانداردسازی آن‌ها بررسی می‌شود...',
+                'category': blog_categories['آزمایشگاهی'],
+            },
         ]
 
         for item in posts:
@@ -140,6 +158,7 @@ class Command(BaseCommand):
                 defaults={
                     'content': item['content'],
                     'author': user,
+                    'blog_category': item['category'],
                     'created_at': timezone.now(),
                 },
             )

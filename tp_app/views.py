@@ -4,7 +4,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, render
 
-from .models import BlogPost, Brand, Category, Product
+from .models import BlogCategory, BlogPost, Brand, Category, Product
 
 
 def landing_view(request):
@@ -142,8 +142,37 @@ def about_view(request):
   return render(request=request, template_name='darabarema.html')
 
 def blog_view(request):
-  posts = BlogPost.objects.select_related('author').order_by('-created_at')
-  return render(request=request, template_name='weblog.html', context={'posts': posts})
+  search_query = request.GET.get('search', '').strip()
+  selected_category = request.GET.get('category', '').strip()
+
+  posts = BlogPost.objects.select_related('author', 'blog_category').order_by('-created_at')
+
+  if search_query:
+    posts = posts.filter(
+      Q(title__icontains=search_query) |
+      Q(content__icontains=search_query)
+    )
+
+  if selected_category:
+    posts = posts.filter(blog_category__slug=selected_category)
+
+  categories = (
+    BlogCategory.objects
+    .annotate(count=Count('blog_posts'))
+    .filter(count__gt=0)
+    .order_by('-count', 'name')
+  )
+
+  return render(
+    request=request,
+    template_name='weblog.html',
+    context={
+      'posts': posts,
+      'categories': categories,
+      'search_query': search_query,
+      'selected_category': selected_category,
+    },
+  )
 
 
 def product_detail_view(request, product_id):

@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import (
+    BlogCategory,
     BlogPost,
     Brand,
     Cart,
@@ -100,9 +101,22 @@ class TicketMessageAdmin(admin.ModelAdmin):
   ordering = ('-created_at',)
 
 
+@admin.register(BlogCategory)
+class BlogCategoryAdmin(admin.ModelAdmin):
+  list_display = ('name', 'slug')
+  prepopulated_fields = {'slug': ('name',)}
+
+
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
-  list_display = ('title', 'author', 'created_at')
-  search_fields = ('title', 'content', 'author__phone_number', 'author__full_name')
+  list_display = ('title', 'blog_category', 'author', 'created_at')
+  list_filter = ('blog_category', 'author', 'created_at')
+  search_fields = (
+    'title',
+    'content',
+    'author__phone_number',
+    'author__full_name',
+    'blog_category__name',
+  )
   readonly_fields = ('created_at',)
   ordering = ('-created_at',)
