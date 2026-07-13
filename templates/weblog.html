@@ -1411,9 +1411,9 @@
                         <span><i class="fas fa-clock meta-icon"></i> ۷ دقیقه مطالعه</span>
                         <span><i class="fas fa-user meta-icon"></i> {{ featured.author.full_name }}</span>
                     </div>
-                    <h3><a href="#">{{ featured.title }}</a></h3>
+                    <h3><a href="{% url 'blog_detail' featured.id %}">{{ featured.title }}</a></h3>
                     <p>{{ featured.content|truncatewords:28 }}</p>
-                    <a href="#" class="read-more-link">
+                    <a href="{% url 'blog_detail' featured.id %}" class="read-more-link">
                         ادامه مطلب
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
@@ -1437,9 +1437,9 @@
                     </div>
                     <div class="post-body">
                         <div class="post-meta"><span><i class="fas fa-calendar-alt meta-icon"></i> {{ post.created_at|date:"j F Y" }}</span><span><i class="fas fa-clock meta-icon"></i> ۵ دقیقه</span></div>
-                        <h3><a href="#">{{ post.title }}</a></h3>
+                        <h3><a href="{% url 'blog_detail' post.id %}">{{ post.title }}</a></h3>
                         <p>{{ post.content|truncatewords:20 }}</p>
-                        <a href="#" class="read-more-link">ادامه مطلب →</a>
+                        <a href="{% url 'blog_detail' post.id %}" class="read-more-link">ادامه مطلب →</a>
                     </div>
                 </article>
                 {% empty %}

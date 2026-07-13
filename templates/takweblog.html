@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>راهنمای خرید یونیت دندانپزشکی | وبلاگ</title>
+{% extends 'includes/base.html' %}
+{% block content %}
+    <title>{{ post.title }} | وبلاگ</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1356,59 +1353,22 @@
     </style>
 </head>
 <body>
-
     <!-- TOPBAR -->
-    <div class="topbar">
-        <div class="container">
-            <div class="topbar-right">
-                <a href="tel:09372105008"><i class="fa-solid fa-phone"></i> 09372105008</a>
-                <a href="mailto:azaryazdan.com"><i class="fa-solid fa-envelope"></i> azaryazdan.com</a>
-            </div>
-            <div class="topbar-left">
-                <i class="fa-solid fa-user"></i>
-                <a href="login.html" class="auth-btn">ورود</a>
-                <a href="register.html" class="auth-btn register">ثبت نام</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- HEADER -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">AZARYAZDAN</div>
-            <button class="hamburger" id="hamburger" aria-label="منوی همبرگری">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <nav id="navMenu">
-                <ul>
-                    <li><a href="#">خانه</a></li>
-                    <li><a href="#">محصولات</a></li>
-                    <li><a href="#">تجهیزات پزشکی</a></li>
-                    <li><a href="#">دندانپزشکی</a></li>
-                    <li><a href="#">برندها</a></li>
-                    <li><a href="#">وبلاگ</a></li>
-                    <li><a href="#">تماس</a></li>
-                </ul>
-            </nav>
-            <div class="header-icons">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <i class="fa-solid fa-heart"></i>
-                <i class="fa-solid fa-cart-shopping"></i>
-            </div>
-        </div>
-    </header>
+    {% include 'includes/navbar.html' %}
 
     <!-- HERO -->
     <section class="hero">
         <div class="container">
             <div class="hero-badge">
-                <span class="dot"></span> مرکز مقالات تخصصی
+                <span class="dot"></span> {{ post.display_category }}
             </div>
-            <h1>وبلاگ <span class="highlight">تجهیزات پزشکی</span></h1>
+            <h1>{{ post.title }}</h1>
             <div class="breadcrumb">
-                <span class="current">راهنمای خرید یونیت دندانپزشکی</span>
+                <a href="{% url 'landing' %}">خانه</a>
+                <span class="separator">/</span>
+                <a href="{% url 'blog' %}">وبلاگ</a>
+                <span class="separator">/</span>
+                <span class="current">{{ post.title }}</span>
             </div>
         </div>
     </section>
@@ -1509,61 +1469,35 @@
                     <div class="cover-wrap">
                         <img class="cover"
                         src="/media/takweblog.jpeg"
-                        alt="یونیت دندانپزشکی مدرن"
+                        alt="{{ post.title }}"
                         loading="lazy">
                     </div>
 
                     <div class="meta">
-                        <span><i class="fa-regular fa-calendar-days"></i> ۲۳ اردیبهشت ۱۴۰۳</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> {{ post.created_at|date:"j F Y" }}</span>
                         <span><i class="fa-regular fa-clock"></i> ۶ دقیقه مطالعه</span>
-                        <span><i class="fa-solid fa-tooth"></i> تجهیزات دندانپزشکی</span>
+                        <span><i class="fa-solid fa-tooth"></i> {{ post.display_category }}</span>
                     </div>
 
-                    <h2>راهنمای خرید یونیت دندانپزشکی؛ نکات مهم قبل از خرید</h2>
+                    <h2>{{ post.title }}</h2>
 
-                    <p>
-                        یونیت دندانپزشکی یکی از مهم‌ترین تجهیزات هر مطب است
-                        که تأثیر مستقیمی بر کیفیت خدمات و رضایت بیماران دارد.
-                        انتخاب صحیح این تجهیزات نیازمند بررسی دقیق مشخصات
-                        فنی و کیفیت ساخت می‌باشد.
-                    </p>
-
-                    <h3>چرا انتخاب یونیت مناسب اهمیت دارد؟</h3>
-                    <p>
-                        یک یونیت استاندارد علاوه بر افزایش بهره‌وری،
-                        موجب راحتی بیمار و پزشک شده و فرآیند درمان را
-                        به شکل مؤثرتری مدیریت می‌کند.
-                    </p>
-
-                    <h3>نکات مهم هنگام خرید</h3>
-                    <ul>
-                        <li>ارگونومی و راحتی بیمار</li>
-                        <li>کیفیت ساخت و دوام بالا</li>
-                        <li>امکانات و تجهیزات جانبی</li>
-                        <li>خدمات پس از فروش و گارانتی معتبر</li>
-                        <li>اعتبار برند تولیدکننده</li>
-                    </ul>
-
-                    <h3>جمع‌بندی</h3>
-                    <p>
-                        پیش از خرید یونیت دندانپزشکی، نیازهای کلینیک،
-                        بودجه و امکانات مورد نیاز خود را مشخص کنید تا
-                        بهترین انتخاب را داشته باشید.
-                    </p>
+                    <div class="article-body">
+                        {{ post.content|linebreaks }}
+                    </div>
 
                     <div class="note-box">
                         <span class="note-icon"><i class="fa-regular fa-lightbulb"></i></span>
                         <div>
                             <strong>نکته مهم:</strong>
-                            قبل از خرید، خدمات پس از فروش و تأمین قطعات یدکی را به‌دقت بررسی کنید.
+                            دریافت مشاوره پیش از خرید و بررسی شرایط خدمات پس از فروش می‌تواند انتخاب شما را هوشمندانه‌تر کند.
                         </div>
                     </div>
 
                     <div class="tags">
-                        <span>یونیت دندانپزشکی</span>
-                        <span>خرید تجهیزات</span>
+                        <span>{{ post.display_category }}</span>
                         <span>راهنمای خرید</span>
-                        <span>تجهیزات مطب</span>
+                        <span>تجهیزات پزشکی</span>
+                        <span>مقالات تخصصی</span>
                     </div>
                 </article>
             </main>
@@ -1585,77 +1519,7 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-col contact-col">
-                <h3>اطلاعات تماس</h3>
-                <ul class="contact-list">
-                    <li><span>09372105008</span><i class="fa-solid fa-phone"></i></li>
-                    <li><span>09372108005</span><i class="fa-solid fa-mobile-screen"></i></li>
-                    <li><span>azaryazdan@gmail.com</span><i class="fa-regular fa-envelope"></i></li>
-                    <li><span>تبریز 17 شهریور جدید <br>جنب بانک ملت کوی نوبری جنب فروشگاه پالتار شرکت آدریزدان پلاک18</span><i class="fa-solid fa-location-dot"></i></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h3>خدمات</h3>
-                <ul>
-                    <li><a href="#">مشاوره تخصصی</a></li>
-                    <li><a href="#">خدمات پس از فروش</a></li>
-                    <li><a href="#">آموزش و نصب</a></li>
-                    <li><a href="#">گارانتی و ضمانت</a></li>
-                    <li><a href="#">پشتیبانی آنلاین</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h3>دسترسی سریع</h3>
-                <ul>
-                    <li><a href="#">صفحه اصلی</a></li>
-                    <li><a href="#">درباره ما</a></li>
-                    <li><a href="#">برندها</a></li>
-                    <li><a href="#">مقالات</a></li>
-                    <li><a href="#">سوالات متداول</a></li>
-                    <li><a href="#">تماس با ما</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h3>محصولات</h3>
-                <ul>
-                    <li><a href="#">تجهیزات دندانپزشکی</a></li>
-                    <li><a href="#">تجهیزات پزشکی</a></li>
-                    <li><a href="#">تجهیزات آزمایشگاهی</a></li>
-                    <li><a href="#">تجهیزات تصویربرداری</a></li>
-                    <li><a href="#">تجهیزات استریل</a></li>
-                    <li><a href="#">تجهیزات مصرفی</a></li>
-                </ul>
-            </div>
-            <div class="footer-col company-col">
-                <div class="logo">
-                    <div class="logo-icon"><i class="fa-solid fa-heart-circle-plus"></i></div>
-                    <div>
-                        <h2>AZRYYAZDAN</h2>
-                        <span>تجهیزات پزشکی و دندانپزشکی</span>
-                    </div>
-                </div>
-                <p class="about-text">ارائه دهنده تجهیزات پزشکی و دندانپزشکی از برندهای معتبر جهانی با بهترین قیمت و خدمات پس از فروش</p>
-                <div class="socials">
-                    <a href="#" aria-label="اینستاگرام"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" aria-label="تلگرام"><i class="fa-brands fa-telegram"></i></a>
-                    <a href="#" aria-label="لینکدین"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#" aria-label="واتساپ"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-links">
-                <a href="#">شرایط و قوانین</a>
-                <a href="#">سیاست حفظ حریم خصوصی</a>
-            </div>
-            <div class="copyright">© 1405 تمامی حقوق این وبسایت متعلق به شرکت مدی‌دنت می‌باشد.</div>
-        </div>
-        <button class="scroll-top" id="scrollTopBtn" aria-label="اسکرول به بالا">
-            <i class="fa-solid fa-arrow-up"></i>
-        </button>
-    </footer>
+    {% include 'includes/footer.html' %}
 
     <script>
         // همبرگر منو
@@ -1712,4 +1576,4 @@
     </script>
 
 </body>
-</html>
+{% endblock content %}

@@ -173,6 +173,17 @@ def blog_view(request):
     },
   )
 
+def blog_post_view(request, post_id):
+  post = get_object_or_404(
+    BlogPost.objects.select_related('author', 'blog_category'),
+    pk=post_id,
+  )
+  return render(
+    request=request,
+    template_name='takweblog.html',
+    context={'post': post},
+  )
+
 
 def product_detail_view(request, product_id):
   product = get_object_or_404(
