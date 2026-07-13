@@ -546,6 +546,20 @@
             background: rgba(255, 255, 255, 0.5);
         }
 
+        .auth-error {
+            display: none;
+            margin-bottom: 20px;
+            padding: 14px 16px;
+            background: #ffe3e3;
+            border: 1px solid #fca5a5;
+            color: #b91c1c;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            text-align: right;
+            direction: rtl;
+        }
+
         /* Form */
         .auth-form {
             display: flex;
@@ -993,6 +1007,7 @@
     </style>
 </head>
 <body>
+    <form style="display:none;" method="post">{% csrf_token %}</form>
     <!-- Main Mockup Container -->
     <div class="mockup-container">
 
@@ -1148,6 +1163,7 @@
                     <button class="auth-tab active" data-tab="login" id="tabLogin">ورود</button>
                     <button class="auth-tab" data-tab="register" id="tabRegister">ایجاد حساب کاربری</button>
                 </div>
+                <div class="auth-error" id="authError"></div>
 
                 <!-- Login Form -->
                 <div class="auth-form" id="formLogin">
@@ -1228,6 +1244,7 @@
             const btnRegisterSubmit = document.getElementById('btnRegisterSubmit');
             const btnOtpVerify = document.getElementById('btnOtpVerify');
             const btnBack = document.getElementById('btnBack');
+            const authError = document.getElementById('authError');
             const countdownTimer = document.getElementById('countdownTimer');
             const resendLink = document.getElementById('resendLink');
             const otpPhoneDisplay = document.getElementById('otpPhoneDisplay');
@@ -1257,6 +1274,7 @@
                     formRegister.style.display = 'flex';
                     formLogin.style.display = 'none';
                 }
+                clearAuthError();
                 // Hide OTP section
                 otpSection.classList.remove('visible');
                 otpSection.style.display = 'none';
@@ -1274,6 +1292,13 @@
 
             tabLogin.addEventListener('click', () => switchTab('login'));
             tabRegister.addEventListener('click', () => switchTab('register'));
+
+            const initialHash = window.location.hash.replace('#', '');
+            if (initialHash === 'register') {
+                switchTab('register');
+            } else {
+                switchTab('login');
+            }
 
             // ============ OTP INPUT HANDLING ============
             function resetOtpInputs() {
@@ -1362,6 +1387,16 @@
                     code += inp.value;
                 });
                 return code;
+            }
+
+            function showAuthError(message) {
+                authError.textContent = message;
+                authError.style.display = 'block';
+            }
+
+            function clearAuthError() {
+                authError.textContent = '';
+                authError.style.display = 'none';
             }
 
             function isOtpComplete() {
@@ -1547,7 +1582,6 @@
                     return;
                 }
                 if (phone.length === 10 && phone.startsWith('9')) {
-                    // Convert 9xxxxxxxxx to 09xxxxxxxxx
                     currentPhone = '0' + phone;
                 } else if (phone.length === 11 && phone.startsWith('0')) {
                     currentPhone = phone;
@@ -1555,7 +1589,7 @@
                     shakeElement(phoneLogin);
                     return;
                 }
-                showOtpSection(currentPhone);
+                sendOtp('login', currentPhone, '');
             });
 
             // ============ REGISTER SUBMIT ============
@@ -1592,8 +1626,49 @@
                     shakeElement(phoneRegister);
                     return;
                 }
-                showOtpSection(currentPhone);
+                sendOtp('register', currentPhone, nameRaw);
             });
+
+            function sendOtp(mode, phone, name) {
+                fetch('{% url "send_otp" %}', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken'),
+                    },
+                    body: new URLSearchParams({
+                        phone_number: phone,
+                        full_name: name,
+                        mode,
+                    }),
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.success) {
+                        clearAuthError();
+                        showOtpSection(phone);
+                        return;
+                    }
+                    if (mode === 'login' && data.error === 'unregistered') {
+                        switchTab('register');
+                        phoneRegister.value = phone;
+                        showAuthError(data.message || 'این شماره ثبت نشده است. لطفاً ابتدا در تب ثبت نام ثبت نام کنید.');
+                        return;
+                    }
+                    throw new Error(data.error || 'send_failed');
+                })
+                .catch(() => {
+                    shakeElement(currentMode === 'login' ? phoneLogin : phoneRegister);
+                });
+            }
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+                return '';
+            }
 
             function shakeElement(el) {
                 el.style.animation = 'none';
@@ -1612,50 +1687,36 @@
                     return;
                 }
                 const code = getOtpCode();
-                // Simulate verification (accept any 6-digit code for demo)
                 console.log('Verifying OTP:', code, 'for phone:', currentPhone);
 
-                // Show success
-                btnOtpVerify.disabled = true;
-                btnOtpVerify.textContent = 'در حال تایید...';
-
-                setTimeout(() => {
-                    successCheck.classList.add('visible');
-                    btnOtpVerify.textContent = 'تایید شد ✓';
-                    btnOtpVerify.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-                    btnOtpVerify.style.boxShadow = '0 6px 20px rgba(16,185,129,0.3)';
-                    stopCountdown();
-                    resendLink.classList.add('disabled');
-                    countdownTimer.textContent = '✓';
-                    countdownTimer.classList.remove('urgent');
-                    countdownTimer.style.color = '#10b981';
-
-                    // Reset after delay
-                    setTimeout(() => {
-                        btnOtpVerify.style.background = '';
-                        btnOtpVerify.style.boxShadow = '';
-                        btnOtpVerify.textContent = 'تایید کد';
-                        btnOtpVerify.disabled = false;
-                        countdownTimer.style.color = '';
-                        countdownSeconds = 120;
-                        updateCountdownDisplay();
-                        successCheck.classList.remove('visible');
-                        otpSection.classList.remove('visible');
-                        otpSection.style.display = 'none';
-                        resetOtpInputs();
-                        stopCountdown();
-                        // Return to form
-                        if (currentMode === 'login') {
-                            formLogin.style.display = 'flex';
-                            phoneLogin.value = '';
-                        } else {
-                            formRegister.style.display = 'flex';
-                            fullName.value = '';
-                            phoneRegister.value = '';
-                        }
-                        otpSent = false;
-                    }, 2000);
-                }, 800);
+                fetch('{% url "verify_otp" %}', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken'),
+                    },
+                    body: new URLSearchParams({
+                        phone_number: currentPhone,
+                        otp_code: code,
+                    }),
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.success) {
+                        window.location.href = '{% url "dashboard" %}';
+                        return;
+                    }
+                    throw new Error(data.error || 'invalid_otp');
+                })
+                .catch(() => {
+                    shakeOtpInputs();
+                    shakeElement(btnOtpVerify);
+                    btnOtpVerify.disabled = false;
+                    btnOtpVerify.textContent = 'تایید کد';
+                    btnOtpVerify.style.boxShadow = '';
+                    btnOtpVerify.style.background = '';
+                });
             });
 
             // ============ ENTER KEY SUPPORT ============

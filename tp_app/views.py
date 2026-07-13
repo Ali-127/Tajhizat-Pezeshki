@@ -20,6 +20,10 @@ def landing_view(request):
   return render(request=request, template_name='landing.html', context=context)
 
 
+def dashboard_view(request):
+  return render(request=request, template_name='dashboard.html')
+
+
 def _get_pagination_range(page_obj, delta=2):
   total_pages = page_obj.paginator.num_pages
   current = page_obj.number
