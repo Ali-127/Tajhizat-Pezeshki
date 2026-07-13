@@ -95,7 +95,7 @@ def logout_view(request):
     return redirect('landing')
 
 
-def profile_view(request):
+def dashboard_view(request):
     if not request.user.is_authenticated:
         return redirect('auth')
-    return render(request, 'profile.html')
+    return render(request, 'dashboard.html')
