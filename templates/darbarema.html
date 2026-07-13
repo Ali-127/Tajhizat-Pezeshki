@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+{% extends 'includes/base.html' %}
+{% block content %}
     <title>درباره ما | تجهیزات پزشکی آذریزدی</title>
 
     <style>
@@ -1190,46 +1185,7 @@
     </style>
 </head>
 <body>
-    <div class="topbar">
-        <div class="container">
-            <div class="topbar-right">
-                <a href="#"><i class="fa-solid fa-phone"></i> ۰۲۱-۱۲۳۴۵۶۷۸</a>
-                <a href="#"><i class="fa-solid fa-envelope"></i> info@medident.com</a>
-            </div>
-            <div class="topbar-left">
-                <i class="fa-solid fa-user"></i>
-                <a href="#" class="auth-btn">ورود</a>
-                <a href="#" class="auth-btn register">ثبت نام</a>
-            </div>
-        </div>
-    </div>
-
-    <header class="header">
-        <div class="container">
-            <div class="logo">AZARYAZDAN</div>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <nav id="navMenu">
-                <ul>
-                    <li><a href="#">خانه</a></li>
-                    <li><a href="#">محصولات</a></li>
-                    <li><a href="#">تجهیزات پزشکی</a></li>
-                    <li><a href="#">دندانپزشکی</a></li>
-                    <li><a href="#">برندها</a></li>
-                    <li><a href="#">وبلاگ</a></li>
-                    <li><a href="#">تماس</a></li>
-                </ul>
-            </nav>
-            <div class="header-icons">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <i class="fa-solid fa-heart"></i>
-                <i class="fa-solid fa-cart-shopping"></i>
-            </div>
-        </div>
-    </header>
+    {% include 'includes/navbar.html' %}
 
     <main class="container">
         <section class="intro-section section-padding">
@@ -1369,40 +1325,7 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-col contact-col">
-                <h3>اطلاعات تماس</h3>
-                <ul class="contact-list">
-                    <li><span>09372105008</span><i class="fa-solid fa-phone"></i></li>
-                    <li><span>09372108005</span><i class="fa-solid fa-mobile-screen"></i></li>
-                    <li><span>azaryazdan@gmail.com</span><i class="fa-regular fa-envelope"></i></li>
-                    <li><span>تبریز 17 شهریور جدید <br>جنب بانک ملت کوی نوبری جنب فروشگاه پالتار شرکت آدریزدان پلاک18</span><i class="fa-solid fa-location-dot"></i></li>
-                </ul>
-            </div>
-            <div class="footer-col"><h3>خدمات</h3><ul><li><a href="#">مشاوره تخصصی</a></li><li><a href="#">خدمات پس از فروش</a></li><li><a href="#">آموزش و نصب</a></li><li><a href="#">گارانتی و ضمانت</a></li><li><a href="#">پشتیبانی آنلاین</a></li></ul></div>
-            <div class="footer-col"><h3>دسترسی سریع</h3><ul><li><a href="#">صفحه اصلی</a></li><li><a href="#">درباره ما</a></li><li><a href="#">برندها</a></li><li><a href="#">مقالات</a></li><li><a href="#">سوالات متداول</a></li><li><a href="#">تماس با ما</a></li></ul></div>
-            <div class="footer-col"><h3>محصولات</h3><ul><li><a href="#">تجهیزات دندانپزشکی</a></li><li><a href="#">تجهیزات پزشکی</a></li><li><a href="#">تجهیزات آزمایشگاهی</a></li><li><a href="#">تجهیزات تصویربرداری</a></li><li><a href="#">تجهیزات استریل</a></li><li><a href="#">تجهیزات مصرفی</a></li></ul></div>
-            <div class="footer-col company-col">
-                <div class="logo">
-                    <div class="logo-icon"><i class="fa-solid fa-heart-circle-plus"></i></div>
-                    <div><h2>AZRYYAZDAN</h2><span>تجهیزات پزشکی و دندانپزشکی</span></div>
-                </div>
-                <p class="about-text">ارائه دهنده تجهیزات پزشکی و دندانپزشکی از برندهای معتبر جهانی با بهترین قیمت و خدمات پس از فروش</p>
-                <div class="socials">
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-telegram"></i></a>
-                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-links"><a href="#">شرایط و قوانین</a><a href="#">سیاست حفظ حریم خصوصی</a></div>
-            <div class="copyright">© 1405 تمامی حقوق این وبسایت متعلق به شرکت مدی‌دنت می‌باشد.</div>
-        </div>
-        <a href="#" class="scroll-top" id="scrollTopBtn"><i class="fa-solid fa-arrow-up"></i></a>
-    </footer>
+    {% include 'includes/footer.html' %}
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -1445,4 +1368,4 @@
         }
     </script>
 </body>
-</html>
+{% endblock content %}

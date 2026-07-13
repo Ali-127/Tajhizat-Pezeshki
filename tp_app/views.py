@@ -139,7 +139,7 @@ def shop_view(request):
   return render(request=request, template_name='shop.html', context=context)
 
 def about_view(request):
-  return render(request=request, template_name='darabarema.html')
+  return render(request=request, template_name='darbarema.html')
 
 def blog_view(request):
   search_query = request.GET.get('search', '').strip()
