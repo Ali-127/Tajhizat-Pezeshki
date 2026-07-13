@@ -159,7 +159,6 @@ def blog_view(request):
   categories = (
     BlogCategory.objects
     .annotate(count=Count('blog_posts'))
-    .filter(count__gt=0)
     .order_by('-count', 'name')
   )
 
