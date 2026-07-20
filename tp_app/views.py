@@ -302,7 +302,26 @@ def toggle_favorite_view(request, product_id):
     return redirect(referer)
   return redirect('product_detail', product_id=product.id)
 
-# def t_view(request):
-#   return render(request=request, template_name='shop.html')
-# def shop_view(request):
-#   return render(request=request, template_name='shop.html')
+def show_favorites_view(request):
+  if not request.user.is_authenticated:
+    next_path = request.get_full_path()
+    return redirect(f"{reverse('auth')}?next={quote(next_path)}")
+
+  favorite_product_ids = list(
+    Favorites.objects.filter(user=request.user).values_list('product_id', flat=True)
+  )
+  products = Product.objects.filter(pk__in=favorite_product_ids).select_related('brand', 'category')
+
+  page = request.GET.get('page', 1)
+  paginator = Paginator(products, 12)
+  try:
+    page_obj = paginator.page(page)
+  except (PageNotAnInteger, EmptyPage):
+    page_obj = paginator.page(1)
+
+  context = {
+    'page_obj': page_obj,
+    'page_numbers': _get_pagination_range(page_obj),
+    'favorite_product_ids': favorite_product_ids,
+  }
+  return render(request=request, template_name='favorites.html', context=context)

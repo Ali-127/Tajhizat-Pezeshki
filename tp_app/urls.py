@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import about_view, blog_post_view, blog_view, landing_view, product_detail_view, shop_view, dashboard_view, cart_view, add_to_cart_view, toggle_favorite_view
+from .views import about_view, blog_post_view, blog_view, landing_view, product_detail_view, shop_view, dashboard_view, cart_view, add_to_cart_view, toggle_favorite_view, show_favorites_view
 
 urlpatterns = [
   path('', landing_view, name='landing'),
@@ -13,4 +13,5 @@ urlpatterns = [
   path('about/', about_view, name='about'),
   path('blog/<int:post_id>/', blog_post_view, name='blog_detail'),
   path('blog/', blog_view, name='blog'),
+  path('favorites/', show_favorites_view, name='favorites'),
 ]
