@@ -7,6 +7,7 @@ from django.conf import settings
 
 from users.models import User
 from tp_app.models import BlogCategory, Brand, Category, Product, BlogPost
+from tp_app.models import Cart, CartItem
 
 
 
@@ -166,5 +167,19 @@ class Command(BaseCommand):
                     'blog_category': item['category'],
                 },
             )
+
+        # Create a demo cart for the seeded demo user to showcase the cart page
+        try:
+            demo_user = user
+            cart, created = Cart.objects.get_or_create(user=demo_user)
+            # clear existing items
+            cart.items.all().delete()
+            # pick a few products to add
+            sample_products = list(Product.objects.all()[:3])
+            for idx, p in enumerate(sample_products, start=1):
+                CartItem.objects.create(cart=cart, product=p, quantity=idx)
+        except Exception:
+            # ignore cart creation errors in minimal seed environments
+            pass
 
         self.stdout.write(self.style.SUCCESS('Landing page and shop data seeded successfully.'))

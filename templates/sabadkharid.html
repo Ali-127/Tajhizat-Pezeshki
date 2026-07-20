@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="fa-IR" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'includes/base.html' %}
+{% block content %}
     <title>سبد خرید | تجهیزات پزشکی آذر یزدان</title>
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
             --primary: #1565F7;
@@ -1528,49 +1523,7 @@
 </head>
 <body>
 
-    <!-- ==================== TOPBAR ==================== -->
-    <div class="topbar">
-        <div class="container">
-            <div class="topbar-right">
-                <a href="#"><i class="fa-solid fa-phone"></i> 09372105008</a>
-                <a href="#"><i class="fa-solid fa-envelope"></i> azaryazdan@gmail.com</a>
-            </div>
-            <div class="topbar-left">
-                <i class="fa-solid fa-user"></i>
-                <a href="#" class="auth-btn">ورود</a>
-                <a href="#" class="auth-btn register">ثبت نام</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== HEADER ==================== -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">AZARYAZDAN</div>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <nav id="navMenu">
-                <ul>
-                    <li><a href="#">خانه</a></li>
-                    <li><a href="#">محصولات</a></li>
-                    <li><a href="#">تجهیزات پزشکی</a></li>
-                    <li><a href="#">دندانپزشکی</a></li>
-                    <li><a href="#">برندها</a></li>
-                    <li><a href="#">وبلاگ</a></li>
-                    <li><a href="#">تماس</a></li>
-                </ul>
-            </nav>
-            <div class="header-icons">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <i class="fa-solid fa-heart"></i>
-                <i class="fa-solid fa-cart-shopping"></i>
-            </div>
-        </div>
-    </header>
-
+    {% include 'includes/navbar.html' %}
     <!-- ==================== MAIN CART ==================== -->
     <main class="main-container">
 
@@ -1584,7 +1537,7 @@
                 </span>
                 سبد خرید شما
             </h1>
-            <span class="cart-item-count">۳ کالا در سبد</span>
+            <span class="cart-item-count">{{ cart_items|length }} کالا در سبد</span>
         </div>
 
         <div class="cart-grid" id="cartGrid">
@@ -1597,82 +1550,33 @@
                     </label>
                 </div>
 
-                <!-- Item 1 -->
-                <div class="cart-item" data-price="2850000" data-discount="5" data-id="1">
-                    <div class="cart-item-checkbox"><input type="checkbox" checked class="item-checkbox"></div>
-                    <div class="cart-item-img">
-                        <!-- جایگزینی SVG با تگ img برای تصویر محصول -->
-                        <img src="/media/sorang.jpeg" alt="دستگاه فشارسنج دیجیتال بازویی AZ-200 Pro">
-                    </div>
-                    <div class="cart-item-info">
-                        <div class="item-title">دستگاه فشارسنج دیجیتال بازویی AZ-200 Pro</div>
-                        <div class="item-meta"><span>کد: AZ-200</span><span>۲۴ ماه گارانتی</span></div>
-                    </div>
-                    <div class="quantity-control">
-                        <button onclick="updateQty(this, -1)">−</button>
-                        <span class="qty-display">1</span>
-                        <button onclick="updateQty(this, 1)">+</button>
-                    </div>
-                    <div class="cart-item-price-section">
-                        <span class="item-total">۲,۷۰۷,۵۰۰</span>
-                        <span class="item-unit-price">تومان</span>
-                        <span class="item-discount-badge">۵٪ تخفیف</span>
-                    </div>
-                    <button class="remove-btn" onclick="removeItem(this)" title="حذف کالا">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                </div>
-
-                <!-- Item 2 -->
-                <div class="cart-item" data-price="450000" data-discount="0" data-id="2">
-                    <div class="cart-item-checkbox"><input type="checkbox" checked class="item-checkbox"></div>
-                    <div class="cart-item-img">
-                        <!-- جایگزینی SVG با تگ img برای تصویر محصول -->
-                        <img src="/media/tabasnj.jpeg" alt="تب سنج دیجیتال طبی T-100">
-                    </div>
-                    <div class="cart-item-info">
-                        <div class="item-title">تب سنج دیجیتال طبی T-100</div>
-                        <div class="item-meta"><span>کد: T-100</span><span>۱۲ ماه گارانتی</span></div>
-                    </div>
-                    <div class="quantity-control">
-                        <button onclick="updateQty(this, -1)">−</button>
-                        <span class="qty-display">2</span>
-                        <button onclick="updateQty(this, 1)">+</button>
-                    </div>
-                    <div class="cart-item-price-section">
-                        <span class="item-total">۹۰۰,۰۰۰</span>
-                        <span class="item-unit-price">۴۵۰,۰۰۰ تومان</span>
-                    </div>
-                    <button class="remove-btn" onclick="removeItem(this)" title="حذف کالا">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                </div>
-
-                <!-- Item 3 -->
-                <div class="cart-item" data-price="1200000" data-discount="8" data-id="3">
-                    <div class="cart-item-checkbox"><input type="checkbox" checked class="item-checkbox"></div>
-                    <div class="cart-item-img">
-                        <!-- جایگزینی SVG با تگ img برای تصویر محصول -->
-                        <img src="/media/paks ekstir.jpeg" alt="پالس اکسیمتر انگشتی OX-50">
-                    </div>
-                    <div class="cart-item-info">
-                        <div class="item-title">پالس اکسیمتر انگشتی OX-50</div>
-                        <div class="item-meta"><span>کد: OX-50</span><span>۱۸ ماه گارانتی</span></div>
-                    </div>
-                    <div class="quantity-control">
-                        <button onclick="updateQty(this, -1)">−</button>
-                        <span class="qty-display">1</span>
-                        <button onclick="updateQty(this, 1)">+</button>
-                    </div>
-                    <div class="cart-item-price-section">
-                        <span class="item-total">۱,۱۰۴,۰۰۰</span>
-                        <span class="item-unit-price">تومان</span>
-                        <span class="item-discount-badge">۸٪ تخفیف</span>
-                    </div>
-                    <button class="remove-btn" onclick="removeItem(this)" title="حذف کالا">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                </div>
+                {% if cart_items %}
+                    {% for ci in cart_items %}
+                        <div class="cart-item" data-price="{{ ci.price }}" data-discount="{{ ci.discount }}" data-id="{{ ci.id }}">
+                            <div class="cart-item-checkbox"><input type="checkbox" checked class="item-checkbox"></div>
+                            <div class="cart-item-img">
+                                <img src="{% if ci.product.image %}{{ ci.product.image.url }}{% else %}/static/media/main-img.jpeg{% endif %}" alt="{{ ci.product.name }}">
+                            </div>
+                            <div class="cart-item-info">
+                                <div class="item-title">{{ ci.product.name }}</div>
+                                <div class="item-meta"><span>کد: {{ ci.product.id }}</span>{% if ci.product.warranty %}<span>گارانتی</span>{% endif %}</div>
+                            </div>
+                            <div class="quantity-control">
+                                <button onclick="updateQty(this, -1)">−</button>
+                                <span class="qty-display">{{ ci.quantity }}</span>
+                                <button onclick="updateQty(this, 1)">+</button>
+                            </div>
+                            <div class="cart-item-price-section">
+                                <span class="item-total">{{ ci.total }}</span>
+                                <span class="item-unit-price">تومان</span>
+                                {% if ci.discount and ci.discount > 0 %}<span class="item-discount-badge">{{ ci.discount }}٪ تخفیف</span>{% endif %}
+                            </div>
+                            <button class="remove-btn" onclick="removeItem(this)" title="حذف کالا">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
 
             <!-- Cart Summary -->
@@ -1681,8 +1585,8 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
                     خلاصه سفارش
                 </h3>
-                <div class="summary-row"><span>مجموع کالاها</span><span id="totalItemsPrice">۴,۷۱۱,۵۰۰</span> تومان</div>
-                <div class="summary-row"><span>تخفیف</span><span id="totalDiscount" style="color:#ef4444;">− ۴۲۰,۰۰۰</span> تومان</div>
+                <div class="summary-row"><span>مجموع کالاها</span><span id="totalItemsPrice">{{ total_items_price|default:0 }}</span> تومان</div>
+                <div class="summary-row"><span>تخفیف</span><span id="totalDiscount" style="color:#ef4444;">− {{ total_discount|default:0 }}</span> تومان</div>
                 <div class="summary-row"><span>هزینه ارسال</span><span style="color:var(--success);">رایگان</span></div>
                 <div class="coupon-section">
                     <input type="text" placeholder="کد تخفیف..." id="couponInput">
@@ -1693,7 +1597,7 @@
                     کد تخفیف <strong>AZAR10</strong> اعمال شد
                     <button onclick="removeCoupon()">حذف</button>
                 </div>
-                <div class="summary-row total-row"><span>مبلغ قابل پرداخت</span><span id="finalPrice">۴,۵۳۰,۰۰۰</span> تومان</div>
+                <div class="summary-row total-row"><span>مبلغ قابل پرداخت</span><span id="finalPrice">{{ final_price|default:0 }}</span> تومان</div>
                 <button class="btn-checkout" id="checkoutBtn">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     ادامه فرایند پرداخت
@@ -1739,42 +1643,7 @@
     </div>
 
     <!-- ==================== FOOTER ==================== -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-col contact-col">
-                <h3>اطلاعات تماس</h3>
-                <ul class="contact-list">
-                    <li><span>09372105008</span><i class="fa-solid fa-phone"></i></li>
-                    <li><span>09372108005</span><i class="fa-solid fa-mobile-screen"></i></li>
-                    <li><span>azaryazdan@gmail.com</span><i class="fa-regular fa-envelope"></i></li>
-                    <li><span>تبریز 17 شهریور جدید <br>جنب بانک ملت کوی نوبری جنب فروشگاه پالتار شرکت آدریزدان پلاک18</span><i class="fa-solid fa-location-dot"></i></li>
-                </ul>
-            </div>
-            <div class="footer-col"><h3>خدمات</h3><ul><li><a href="#">مشاوره تخصصی</a></li><li><a href="#">خدمات پس از فروش</a></li><li><a href="#">آموزش و نصب</a></li><li><a href="#">گارانتی و ضمانت</a></li><li><a href="#">پشتیبانی آنلاین</a></li></ul></div>
-            <div class="footer-col"><h3>دسترسی سریع</h3><ul><li><a href="#">صفحه اصلی</a></li><li><a href="#">درباره ما</a></li><li><a href="#">برندها</a></li><li><a href="#">مقالات</a></li><li><a href="#">سوالات متداول</a></li><li><a href="#">تماس با ما</a></li></ul></div>
-            <div class="footer-col"><h3>محصولات</h3><ul><li><a href="#">تجهیزات دندانپزشکی</a></li><li><a href="#">تجهیزات پزشکی</a></li><li><a href="#">تجهیزات آزمایشگاهی</a></li><li><a href="#">تجهیزات تصویربرداری</a></li><li><a href="#">تجهیزات استریل</a></li><li><a href="#">تجهیزات مصرفی</a></li></ul></div>
-            <div class="footer-col company-col">
-                <div class="logo">
-                    <div class="logo-icon"><i class="fa-solid fa-heart-circle-plus"></i></div>
-                    <div><h2>AZRYYAZDAN</h2><span>تجهیزات پزشکی و دندانپزشکی</span></div>
-                </div>
-                <p class="about-text">ارائه دهنده تجهیزات پزشکی و دندانپزشکی از برندهای معتبر جهانی با بهترین قیمت و خدمات پس از فروش</p>
-                <div class="socials">
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-telegram"></i></a>
-                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-links"><a href="#">شرایط و قوانین</a><a href="#">سیاست حفظ حریم خصوصی</a></div>
-            <div class="copyright">© 1405 تمامی حقوق این وبسایت متعلق به شرکت مدی‌دنت می‌باشد.</div>
-        </div>
-        <!-- تغییر تگ به button برای رفع باگ مرورگر فایرفاکس موبایل -->
-        <button class="scroll-top" id="scrollTopBtn" aria-label="اسکرول به بالا"><i class="fa-solid fa-arrow-up"></i></button>
-    </footer>
-
+    {% include 'includes/footer.html' %}
     <script>
         // ==================== HAMBURGER MENU ====================
         const hamburger = document.getElementById('hamburger');
@@ -2028,4 +1897,4 @@
         });
     </script>
 </body>
-</html>
+{% endblock %}

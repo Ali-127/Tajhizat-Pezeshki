@@ -4,7 +4,8 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, render
 
-from .models import BlogCategory, BlogPost, Brand, Category, Product
+from .models import BlogCategory, BlogPost, Brand, Category, Product, Cart, CartItem
+from users.models import User
 
 
 def landing_view(request):
@@ -196,6 +197,54 @@ def product_detail_view(request, product_id):
     is_active=True,
   )
   return render(request=request, template_name='tkmhsul.html', context={'product': product})
+
+
+def cart_view(request):
+  # Show user's cart; for anonymous users show demo cart if present
+  demo_phone = '09123456789'
+  if request.user.is_authenticated:
+    user = request.user
+  else:
+    user = User.objects.filter(phone_number=demo_phone).first()
+
+  cart_items = []
+  total_items_price = 0
+  total_discount = 0
+
+  if user:
+    cart, _ = Cart.objects.get_or_create(user=user)
+    items_qs = cart.items.select_related('product')
+    for ci in items_qs:
+      product = ci.product
+      # convert Decimal price to int for frontend calculations
+      try:
+        price = int(product.price)
+      except Exception:
+        price = int(Decimal(product.price))
+      discount = 0
+      qty = ci.quantity
+      original_total = price * qty
+      discounted_total = int(round(original_total * (1 - discount / 100)))
+      total_items_price += original_total
+      total_discount += (original_total - discounted_total)
+      cart_items.append({
+        'id': ci.id,
+        'product': product,
+        'quantity': qty,
+        'price': price,
+        'discount': discount,
+        'total': discounted_total,
+      })
+
+  final_price = total_items_price - total_discount
+
+  context = {
+    'cart_items': cart_items,
+    'total_items_price': total_items_price,
+    'total_discount': total_discount,
+    'final_price': final_price,
+  }
+  return render(request=request, template_name='sabadkharid.html', context=context)
 
 # def t_view(request):
 #   return render(request=request, template_name='shop.html')
