@@ -302,7 +302,7 @@ def toggle_favorite_view(request, product_id):
     return redirect(referer)
   return redirect('product_detail', product_id=product.id)
 
-def show_favorites_view(request):
+def favorites_view(request):
   if not request.user.is_authenticated:
     next_path = request.get_full_path()
     return redirect(f"{reverse('auth')}?next={quote(next_path)}")
