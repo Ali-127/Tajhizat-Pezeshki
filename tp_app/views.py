@@ -205,7 +205,15 @@ def product_detail_view(request, product_id):
     pk=product_id,
     is_active=True,
   )
-  return render(request=request, template_name='tkmhsul.html', context={'product': product})
+  
+  is_favorite = False
+  if request.user.is_authenticated:
+    is_favorite = Favorites.objects.filter(user=request.user, product=product).exists()
+
+  return render(request=request, template_name='tkmhsul.html', context={
+    'product': product,
+    'is_favorite': is_favorite,
+  })
 
 
 def cart_view(request):

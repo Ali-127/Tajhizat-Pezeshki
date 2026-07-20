@@ -2160,7 +2160,9 @@
 
         <div class="info-box">
           <div class="top-icons">
-            <i class="fa-regular fa-heart"></i>
+            <a href="{% url 'toggle_favorite' product.id %}" class="favorite-toggle{% if is_favorite %} active{% endif %}" title="افزودن به علاقه‌مندی">
+              <i class="fa-heart {% if is_favorite %}fa-solid active{% else %}fa-regular{% endif %}"></i>
+            </a>
             <i class="fa-solid fa-chart-simple"></i>
           </div>
           <h1>{{ product.name }}</h1>
