@@ -124,6 +124,12 @@ def shop_view(request):
   category_query.pop('page', None)
   category_query_string = category_query.urlencode()
 
+  favorite_product_ids = []
+  if request.user.is_authenticated:
+    favorite_product_ids = list(
+      request.user.favorites.values_list('product_id', flat=True)
+    )
+
   context = {
     'products': page_obj,
     'page_obj': page_obj,
@@ -142,6 +148,7 @@ def shop_view(request):
     'fast_delivery': fast_delivery,
     'installation': installation,
     'sort': sort,
+    'favorite_product_ids': favorite_product_ids,
   }
   return render(request=request, template_name='shop.html', context=context)
 

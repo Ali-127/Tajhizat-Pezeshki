@@ -1303,7 +1303,7 @@
                             <div class="product-actions">
                                 <a href="{% url 'product_detail' product.id %}" class="action-btn view-btn" title="مشاهده جزئیات"><i class="fa-solid fa-eye"></i></a>
                                 <a href="{% url 'add_to_cart' product.id %}?qty=1" class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></a>
-                                <a href="{% url 'toggle_favorite' product.id %}" class="action-btn fav-btn"><i class="fa-regular fa-heart"></i></a>
+                                <button class="action-btn fav-btn {% if product.id in favorite_product_ids %}active{% endif %}" type="button" data-fav-url="{% url 'toggle_favorite' product.id %}" onclick="toggleFav(this)"><i class="fa-heart {% if product.id in favorite_product_ids %}fa-solid active{% else %}fa-regular{% endif %}"></i></button>
                             </div>
                         </div>
                         {% empty %}
@@ -1356,18 +1356,11 @@
         }
 
         function toggleFav(btn) {
-            const icon = btn.querySelector('i');
-            if (icon.classList.contains('fa-regular')) {
-                icon.classList.remove('fa-regular');
-                icon.classList.add('fa-solid', 'active');
-                btn.classList.add('active');
-                alert('به لیست علاقه مندی ها اضافه شد');
-            } else {
-                icon.classList.remove('fa-solid', 'active');
-                icon.classList.add('fa-regular');
-                btn.classList.remove('active');
-                alert('از لیست علاقه مندی ها حذف شد');
+            const favUrl = btn.dataset.favUrl;
+            if (!favUrl) {
+                return;
             }
+            window.location.href = favUrl;
         }
 
         document.querySelector('.sort-select').addEventListener('change', function() {
