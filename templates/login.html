@@ -1704,9 +1704,12 @@
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.success) {
-                        window.location.href = '{% url "dashboard" %}';
-                        return;
-                    }
+                            // Redirect to the originally requested URL if provided, otherwise dashboard
+                            const params = new URLSearchParams(window.location.search);
+                            const next = params.get('next');
+                            window.location.href = next ? next : '{% url "dashboard" %}';
+                            return;
+                        }
                     throw new Error(data.error || 'invalid_otp');
                 })
                 .catch(() => {

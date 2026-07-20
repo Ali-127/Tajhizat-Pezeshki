@@ -1302,8 +1302,8 @@
                             <div class="product-price">{{ product.price|floatformat:0 }} تومان</div>
                             <div class="product-actions">
                                 <a href="{% url 'product_detail' product.id %}" class="action-btn view-btn" title="مشاهده جزئیات"><i class="fa-solid fa-eye"></i></a>
-                                <button class="action-btn cart-btn" type="button"><i class="fa-solid fa-cart-shopping"></i></button>
-                                <button class="action-btn fav-btn" type="button" onclick="toggleFav(this)"><i class="fa-regular fa-heart"></i></button>
+                                <a href="{% url 'add_to_cart' product.id %}?qty=1" class="action-btn cart-btn"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <a href="{% url 'toggle_favorite' product.id %}" class="action-btn fav-btn"><i class="fa-regular fa-heart"></i></a>
                             </div>
                         </div>
                         {% empty %}
@@ -1400,7 +1400,8 @@
             });
         });
 
-        document.querySelectorAll('.cart-btn').forEach(btn => {
+        // Only show client-side alerts for buttons (not anchor links which perform server actions)
+        document.querySelectorAll('.cart-btn:not([href])').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const title = this.closest('.product-card').querySelector('.product-title').innerText;

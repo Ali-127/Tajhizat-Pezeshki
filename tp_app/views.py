@@ -2,9 +2,11 @@ from decimal import Decimal
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, Q
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
+from urllib.parse import quote
 
-from .models import BlogCategory, BlogPost, Brand, Category, Product, Cart, CartItem
+from .models import BlogCategory, BlogPost, Brand, Category, Product, Cart, CartItem, Favorites
 from users.models import User
 
 
@@ -245,6 +247,45 @@ def cart_view(request):
     'final_price': final_price,
   }
   return render(request=request, template_name='sabadkharid.html', context=context)
+
+
+def add_to_cart_view(request, product_id):
+  product = get_object_or_404(Product, pk=product_id, is_active=True)
+  qty = 1
+  try:
+    qty = int(request.GET.get('qty', 1))
+  except Exception:
+    qty = 1
+
+  if not request.user.is_authenticated:
+    # Redirect to auth page and preserve the add URL so after login it will add
+    add_path = request.get_full_path()
+    return redirect(f"{reverse('auth')}?next={quote(add_path)}")
+
+  cart, _ = Cart.objects.get_or_create(user=request.user)
+  ci, created = CartItem.objects.get_or_create(cart=cart, product=product, defaults={'quantity': qty})
+  if not created:
+    ci.quantity = min(99, ci.quantity + qty)
+    ci.save()
+
+  return redirect('cart')
+
+
+def toggle_favorite_view(request, product_id):
+  product = get_object_or_404(Product, pk=product_id, is_active=True)
+  if not request.user.is_authenticated:
+    next_path = request.get_full_path()
+    return redirect(f"{reverse('auth')}?next={quote(next_path)}")
+
+  fav, created = Favorites.objects.get_or_create(user=request.user, product=product)
+  if not created:
+    fav.delete()
+
+  # redirect back to referer or product detail
+  referer = request.META.get('HTTP_REFERER')
+  if referer:
+    return redirect(referer)
+  return redirect('product_detail', product_id=product.id)
 
 # def t_view(request):
 #   return render(request=request, template_name='shop.html')

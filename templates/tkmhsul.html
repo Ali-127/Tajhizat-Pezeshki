@@ -2187,9 +2187,9 @@
             <li><i class="fa-solid fa-graduation-cap"></i> نصب و آموزش</li>
             {% endif %}
           </ul>
-          <button class="buy">
+          <a href="{% url 'add_to_cart' product.id %}?qty=1" class="buy">
             <i class="fa-solid fa-cart-shopping"></i> افزودن به سبد خرید
-          </button>
+          </a>
           <button class="consult">
             <i class="fa-solid fa-headset"></i> درخواست مشاوره
           </button>

@@ -2915,12 +2915,12 @@
                 <button class="icon-btn" title="مشاهده سریع">
                   <i class="fas fa-eye"></i>
                 </button>
-                <button class="icon-btn" title="افزودن به علاقه‌مندی">
+                <a href="{% url 'toggle_favorite' product.id %}" class="icon-btn" title="افزودن به علاقه‌مندی">
                   <i class="far fa-heart"></i>
-                </button>
-                <button class="icon-btn" title="افزودن به سبد خرید">
+                </a>
+                <a href="{% url 'add_to_cart' product.id %}?qty=1" class="icon-btn" title="افزودن به سبد خرید">
                   <i class="fas fa-shopping-cart"></i>
-                </button>
+                </a>
               </div>
             </div>
             <h3>{{ product.name }}</h3>
@@ -3080,9 +3080,9 @@
             <div class="price">{{ product.price|floatformat:0 }} تومان</div>
             <div class="card-footer">
               <a href="{% url 'product_detail' product.id %}" class="detail-btn">مشاهده جزئیات</a>
-              <button class="cart-btn" title="افزودن به سبد خرید">
+              <a href="{% url 'add_to_cart' product.id %}?qty=1" class="cart-btn" title="افزودن به سبد خرید">
                 <i class="fas fa-shopping-cart"></i>
-              </button>
+              </a>
             </div>
           </div>
           {% empty %}
