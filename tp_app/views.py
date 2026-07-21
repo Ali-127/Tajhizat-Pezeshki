@@ -1,20 +1,22 @@
 from decimal import Decimal
 
+from django.contrib.auth import logout
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, Q
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.utils import timezone
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 from urllib.parse import quote
 
 from .models import BlogCategory, BlogPost, Brand, Category, Product, Cart, CartItem, Favorites
-from users.models import User
+from .models import Order, OrderItem, Ticket, TicketMessage
+from users.models import User, Address
 
 
 def landing_view(request):
-  active_products = Product.objects.filter(is_active=True).select_related(
-    'brand',
-    'category',
-  )
+  active_products = Product.objects.filter(is_active=True).select_related('brand', 'category')
   context = {
     'special_products': active_products.order_by('-stock', '-created_at')[:5],
     'latest_products': active_products.order_by('-created_at')[:5],
@@ -24,7 +26,62 @@ def landing_view(request):
 
 
 def dashboard_view(request):
-  return render(request, 'dashboard.html')
+  if not request.user.is_authenticated:
+    return redirect('auth')
+
+  user = request.user
+  now = timezone.now()
+
+  # Stats
+  total_orders = user.orders.count()
+  active_orders_count = user.orders.filter(status__in=['PENDING', 'PAID', 'SHIPPED']).count()
+  open_tickets_count = user.tickets.filter(status='OPEN').count()
+  favorites_count = user.favorites.count()
+
+  # Recent orders
+  recent_orders = user.orders.select_related('payment').prefetch_related('items__product').order_by('-created_at')[:4]
+
+  # Recent tickets
+  recent_tickets = user.tickets.order_by('-created_at')[:3]
+
+  # Recent favorites
+  recent_favorites = user.favorites.select_related('product__brand', 'product__category').order_by('-id')[:4]
+  recent_fav_products = [f.product for f in recent_favorites]
+
+  # Orders page
+  all_orders = user.orders.select_related('payment').prefetch_related('items__product').order_by('-created_at')
+
+  # Tickets page
+  all_tickets = user.tickets.order_by('-created_at')
+
+  # Favorites page
+  favorite_product_ids = list(user.favorites.values_list('product_id', flat=True))
+  fav_products = Product.objects.filter(pk__in=favorite_product_ids).select_related('brand', 'category')
+
+  # Addresses
+  addresses = user.addresses.all()
+
+  # New orders since last visit
+  last_login = user.last_login or now
+  new_orders_count = user.orders.filter(created_at__gte=last_login).count()
+
+  context = {
+    'user': user,
+    'total_orders': total_orders,
+    'active_orders': active_orders_count,
+    'open_tickets': open_tickets_count,
+    'favorites_count': favorites_count,
+    'recent_orders': recent_orders,
+    'recent_tickets': recent_tickets,
+    'recent_fav_products': recent_fav_products,
+    'all_orders': all_orders,
+    'all_tickets': all_tickets,
+    'fav_products': fav_products,
+    'favorite_product_ids': favorite_product_ids,
+    'addresses': addresses,
+    'new_orders_count': new_orders_count,
+  }
+  return render(request, 'dashboard.html', context)
 
 
 def _get_pagination_range(page_obj, delta=2):
@@ -293,3 +350,104 @@ def favorites_view(request):
     'favorite_product_ids': favorite_product_ids,
   }
   return render(request, 'favorites.html', context)
+
+
+# ── Dashboard action views ──
+
+def _dashboard_redirect(section=None):
+    url = reverse('dashboard')
+    if section:
+        url += f'#{section}'
+    return redirect(url)
+
+
+@require_POST
+def dashboard_profile_update_view(request):
+    if not request.user.is_authenticated:
+        return redirect('auth')
+
+    user = request.user
+    full_name = request.POST.get('full_name', '').strip()
+    email = request.POST.get('email', '').strip()
+
+    if full_name:
+        user.full_name = full_name
+    if email:
+        user.email = email
+    user.save(update_fields=['full_name', 'email'])
+
+    return _dashboard_redirect('profile')
+
+
+@require_POST
+def dashboard_address_add_view(request):
+    if not request.user.is_authenticated:
+        return redirect('auth')
+
+    street = request.POST.get('street_address', '').strip()
+    city = request.POST.get('city', '').strip()
+
+    if street and city:
+        Address.objects.create(
+            user=request.user,
+            street_address=street,
+            city=city,
+        )
+
+    return _dashboard_redirect('addresses')
+
+
+@require_POST
+def dashboard_address_delete_view(request, address_id):
+    if not request.user.is_authenticated:
+        return redirect('auth')
+
+    addr = get_object_or_404(Address, pk=address_id, user=request.user)
+    addr.delete()
+
+    return _dashboard_redirect('addresses')
+
+
+@require_POST
+def dashboard_create_ticket_view(request):
+    if not request.user.is_authenticated:
+        return redirect('auth')
+
+    subject = request.POST.get('subject', '').strip()
+    message_text = request.POST.get('message', '').strip()
+
+    if subject and message_text:
+        ticket = Ticket.objects.create(user=request.user, subject=subject)
+        TicketMessage.objects.create(
+            ticket=ticket,
+            sender=request.user,
+            message=message_text,
+        )
+
+    return _dashboard_redirect('tickets')
+
+
+@require_POST
+def dashboard_add_to_cart_view(request, product_id):
+    if not request.user.is_authenticated:
+        return redirect('auth')
+
+    product = get_object_or_404(Product, pk=product_id, is_active=True)
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    ci, created = CartItem.objects.get_or_create(cart=cart, product=product, defaults={'quantity': 1})
+    if not created:
+        ci.quantity = min(99, ci.quantity + 1)
+        ci.save()
+
+    return redirect('cart')
+
+
+@require_POST
+def dashboard_remove_favorite_view(request, product_id):
+    if not request.user.is_authenticated:
+        return redirect('auth')
+
+    product = get_object_or_404(Product, pk=product_id)
+    Favorites.objects.filter(user=request.user, product=product).delete()
+
+    return _dashboard_redirect('favorites')

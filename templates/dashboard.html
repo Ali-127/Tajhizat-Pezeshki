@@ -1,3 +1,4 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -1449,7 +1450,7 @@
             <span></span>
         </button>
         <div class="mobile-brand">AZARYAZDAN</div>
-        <span class="mobile-logout material-icons" title="خروج" role="button" aria-label="خروج">logout</span>
+        <a class="mobile-logout material-icons" title="خروج" role="button" aria-label="خروج" href="{% url 'logout' %}">logout</a>
     </div>
 
     <!-- Sidebar Overlay -->
@@ -1477,15 +1478,15 @@
             </a>
             <a class="nav-item" data-section="orders">
                 <span class="nav-icon"><span class="material-icons">receipt_long</span></span> سفارش‌های من
-                <span class="badge">۳</span>
+                <span class="badge">{{ total_orders }}</span>
             </a>
             <a class="nav-item" data-section="favorites">
                 <span class="nav-icon"><span class="material-icons">favorite</span></span> علاقه‌مندی‌ها
-                <span class="badge warn">۸</span>
+                <span class="badge warn">{{ favorites_count }}</span>
             </a>
             <a class="nav-item" data-section="tickets">
                 <span class="nav-icon"><span class="material-icons">support_agent</span></span> تیکت‌های پشتیبانی
-                <span class="badge">۲</span>
+                <span class="badge">{{ all_tickets.count }}</span>
             </a>
             <a class="nav-item" data-section="profile">
                 <span class="nav-icon"><span class="material-icons">person</span></span> اطلاعات حساب
@@ -1496,10 +1497,10 @@
         </div>
 
         <div class="sidebar-footer">
-            <div class="user-mini">
-                <div class="avatar">م ح</div>
+            <div class="user-mini" onclick="window.location='{% url 'logout' %}'">
+                <div class="avatar">{{ user.full_name|slice:":2" }}</div>
                 <div class="info">
-                    <div class="name">مریم حسنی</div>
+                    <div class="name">{{ user.full_name }}</div>
                     <div class="role">مشتری ویژه</div>
                 </div>
                 <span class="material-icons" style="font-size:17px; color:var(--text-light);">logout</span>
@@ -1514,8 +1515,8 @@
         <section class="content-section active" id="dashboard-section">
             <div class="welcome-bar">
                 <div class="welcome-text">
-                    <h1><span class="material-icons">waving_hand</span> سلام مریم جان!</h1>
-                    <p>از آخرین بازدید شما ۲ سفارش جدید ثبت شده است</p>
+                    <h1><span class="material-icons">waving_hand</span> سلام {{ user.full_name }} جان!</h1>
+                    <p>از آخرین بازدید شما {{ new_orders_count }} سفارش جدید ثبت شده است</p>
                 </div>
                 <div class="welcome-actions">
                     <button class="btn btn-outline" onclick="navigateTo('contact')">
@@ -1531,34 +1532,34 @@
                 <div class="stat-card" data-navigate="orders" data-filter="all">
                     <div class="stat-icon"><span class="material-icons">receipt_long</span></div>
                     <div class="stat-info">
-                        <div class="stat-value">۱۲</div>
+                        <div class="stat-value">{{ total_orders }}</div>
                         <div class="stat-label">کل سفارش‌ها</div>
                     </div>
-                    <div class="trend">↑ ۳ سفارش جدید</div>
+                    <div class="trend">↑ {{ new_orders_count }} سفارش جدید</div>
                 </div>
                 <div class="stat-card" data-navigate="orders" data-filter="active">
                     <div class="stat-icon"><span class="material-icons">local_shipping</span></div>
                     <div class="stat-info">
-                        <div class="stat-value">۴</div>
+                        <div class="stat-value">{{ active_orders }}</div>
                         <div class="stat-label">سفارش فعال</div>
                     </div>
-                    <div class="trend">۲ در حال ارسال</div>
+                    <div class="trend">در حال ارسال</div>
                 </div>
                 <div class="stat-card" data-navigate="tickets">
                     <div class="stat-icon"><span class="material-icons">support_agent</span></div>
                     <div class="stat-info">
-                        <div class="stat-value">۲</div>
+                        <div class="stat-value">{{ open_tickets }}</div>
                         <div class="stat-label">تیکت باز</div>
                     </div>
-                    <div class="trend">۱ پاسخ جدید</div>
+                    <div class="trend">پاسخ جدید</div>
                 </div>
                 <div class="stat-card" data-navigate="favorites">
                     <div class="stat-icon"><span class="material-icons">favorite</span></div>
                     <div class="stat-info">
-                        <div class="stat-value">۸</div>
+                        <div class="stat-value">{{ favorites_count }}</div>
                         <div class="stat-label">مورد علاقه‌مندی</div>
                     </div>
-                    <div class="trend">۲ محصول جدید</div>
+                    <div class="trend">محصولات جدید</div>
                 </div>
             </div>
 
@@ -1572,10 +1573,17 @@
                         <table>
                             <thead><tr><th>شماره سفارش</th><th>نام محصول</th><th>تاریخ</th><th>مبلغ</th><th>وضعیت</th></tr></thead>
                             <tbody>
-                                <tr><td><strong>#ORD-9123</strong></td><td>فشارسنج دیجیتال</td><td>۱۸ خرداد ۱۴۰۵</td><td>۲,۸۵۰,۰۰۰</td><td><span class="status-pill info">در حال ارسال</span></td></tr>
-                                <tr><td><strong>#ORD-9087</strong></td><td>تب‌سنج لیزری</td><td>۱۲ خرداد ۱۴۰۵</td><td>۴,۲۰۰,۰۰۰</td><td><span class="status-pill success">تحویل شده</span></td></tr>
-                                <tr><td><strong>#ORD-9045</strong></td><td>ماسک اکسیژن</td><td>۰۵ خرداد ۱۴۰۵</td><td>۱,۶۵۰,۰۰۰</td><td><span class="status-pill success">تحویل شده</span></td></tr>
-                                <tr><td><strong>#ORD-9012</strong></td><td>پالس اکسیمتر</td><td>۲۸ اردیبهشت ۱۴۰۵</td><td>۳,۱۰۰,۰۰۰</td><td><span class="status-pill warning">در انتظار پرداخت</span></td></tr>
+                                {% for order in recent_orders %}
+                                <tr>
+                                    <td><strong>#ORD-{{ order.id }}</strong></td>
+                                    <td>{{ order.items.first.product.name|default:"-" }}</td>
+                                    <td>{{ order.created_at|date:"Y/m/d" }}</td>
+                                    <td>{{ order.total_price|floatformat:0|intcomma }}</td>
+                                    <td><span class="status-pill {% if order.status == 'DELIVERED' %}success{% elif order.status == 'SHIPPED' %}info{% elif order.status == 'PENDING' %}warning{% elif order.status == 'CANCELLED' %}danger{% else %}info{% endif %}">{{ order.get_status_display }}</span></td>
+                                </tr>
+                                {% empty %}
+                                <tr><td colspan="5">هیچ سفارشی یافت نشد</td></tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -1587,30 +1595,18 @@
                         <span class="link" onclick="navigateTo('tickets')">ثبت تیکت جدید ←</span>
                     </div>
                     <div class="ticket-list">
+                        {% for ticket in recent_tickets %}
                         <div class="ticket-item" onclick="navigateTo('tickets')">
                             <div class="ticket-icon blue"><span class="material-icons">build</span></div>
                             <div class="ticket-info">
-                                <div class="ticket-title">مشکل در کالیبراسیون فشارسنج</div>
-                                <div class="ticket-meta">#T-1045 • ۲ روز پیش</div>
+                                <div class="ticket-title">{{ ticket.subject }}</div>
+                                <div class="ticket-meta">#T-{{ ticket.id }} • {{ ticket.created_at|timesince }}</div>
                             </div>
-                            <span class="status-pill info">در حال بررسی</span>
+                            <span class="status-pill {% if ticket.status == 'OPEN' %}info{% else %}success{% endif %}">{{ ticket.get_status_display }}</span>
                         </div>
-                        <div class="ticket-item" onclick="navigateTo('tickets')">
-                            <div class="ticket-icon orange"><span class="material-icons">local_shipping</span></div>
-                            <div class="ticket-info">
-                                <div class="ticket-title">پیگیری ارسال سفارش #ORD-9123</div>
-                                <div class="ticket-meta">#T-1040 • ۵ روز پیش</div>
-                            </div>
-                            <span class="status-pill warning">پاسخ داده شده</span>
-                        </div>
-                        <div class="ticket-item" onclick="navigateTo('tickets')">
-                            <div class="ticket-icon blue"><span class="material-icons">description</span></div>
-                            <div class="ticket-info">
-                                <div class="ticket-title">درخواست فاکتور رسمی</div>
-                                <div class="ticket-meta">#T-1032 • ۱ هفته پیش</div>
-                            </div>
-                            <span class="status-pill success">بسته شده</span>
-                        </div>
+                        {% empty %}
+                        <div class="ticket-item"><div class="ticket-info"><div class="ticket-title">تیکتی وجود ندارد</div></div></div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -1621,46 +1617,23 @@
                     <span class="link" onclick="navigateTo('favorites')">مشاهده لیست کامل ←</span>
                 </div>
                 <div class="fav-grid">
+                    {% for product in recent_fav_products %}
                     <div class="fav-card" onclick="navigateTo('favorites')">
-                        <div class="fav-img"><img src="/media/dasgahalaemhayati.jpeg" alt="مانیتور علائم حیاتی" loading="lazy"></div>
+                        <div class="fav-img"><img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy"></div>
                         <div class="fav-info">
-                            <div class="fav-name">مانیتور علائم حیاتی</div>
+                            <div class="fav-name">{{ product.name }}</div>
                             <div class="fav-bottom">
-                                <span class="fav-price">۴۲۰,۰۰۰,۰۰۰ ریال</span>
-                                <span class="material-icons cart-icon">shopping_cart</span>
+                                <span class="fav-price">{{ product.price|floatformat:0|intcomma }} ریال</span>
+                                <form method="post" action="{% url 'dashboard_add_to_cart' product.id %}" onclick="event.stopPropagation();" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="cart-icon" style="border:none; cursor:pointer;"><span class="material-icons" style="font-size:17px;">shopping_cart</span></button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="fav-card" onclick="navigateTo('favorites')">
-                        <div class="fav-img"><img src="/media/sorang.jpeg" alt="پمپ انفوزیون سرنگ" loading="lazy"></div>
-                        <div class="fav-info">
-                            <div class="fav-name">پمپ انفوزیون سرنگ</div>
-                            <div class="fav-bottom">
-                                <span class="fav-price">۱۸۰,۰۰۰,۰۰۰ ریال</span>
-                                <span class="material-icons cart-icon">shopping_cart</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="fav-card" onclick="navigateTo('favorites')">
-                        <div class="fav-img"><img src="/media/portabl.jpeg" alt="ونتیلاتور پرتابل" loading="lazy"></div>
-                        <div class="fav-info">
-                            <div class="fav-name">ونتیلاتور پرتابل</div>
-                            <div class="fav-bottom">
-                                <span class="fav-price">۸۵۰,۰۰۰,۰۰۰ ریال</span>
-                                <span class="material-icons cart-icon">shopping_cart</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="fav-card" onclick="navigateTo('favorites')">
-                        <div class="fav-img"><img src="/media/tabasnj.jpeg" alt="تب‌سنج دیجیتال" loading="lazy"></div>
-                        <div class="fav-info">
-                            <div class="fav-name">تب‌سنج دیجیتال</div>
-                            <div class="fav-bottom">
-                                <span class="fav-price">۳,۲۰۰,۰۰۰ ریال</span>
-                                <span class="material-icons cart-icon">shopping_cart</span>
-                            </div>
-                        </div>
-                    </div>
+                    {% empty %}
+                    <p>محصولی در علاقه‌مندی‌ها وجود ندارد</p>
+                    {% endfor %}
                 </div>
             </div>
         </section>
@@ -1686,11 +1659,17 @@
                     <table id="orders-table">
                         <thead><tr><th>شماره سفارش</th><th>نام محصول</th><th>تاریخ</th><th>مبلغ</th><th>وضعیت</th></tr></thead>
                         <tbody>
-                            <tr data-status="shipping"><td><strong>#ORD-9123</strong></td><td>فشارسنج دیجیتال</td><td>۱۸ خرداد ۱۴۰۵</td><td>۲,۸۵۰,۰۰۰</td><td><span class="status-pill info">در حال ارسال</span></td></tr>
-                            <tr data-status="delivered"><td><strong>#ORD-9087</strong></td><td>تب‌سنج لیزری</td><td>۱۲ خرداد ۱۴۰۵</td><td>۴,۲۰۰,۰۰۰</td><td><span class="status-pill success">تحویل شده</span></td></tr>
-                            <tr data-status="delivered"><td><strong>#ORD-9045</strong></td><td>ماسک اکسیژن</td><td>۰۵ خرداد ۱۴۰۵</td><td>۱,۶۵۰,۰۰۰</td><td><span class="status-pill success">تحویل شده</span></td></tr>
-                            <tr data-status="pending"><td><strong>#ORD-9012</strong></td><td>پالس اکسیمتر</td><td>۲۸ اردیبهشت ۱۴۰۵</td><td>۳,۱۰۰,۰۰۰</td><td><span class="status-pill warning">در انتظار پرداخت</span></td></tr>
-                            <tr data-status="active"><td><strong>#ORD-8990</strong></td><td>دستگاه فشار خون</td><td>۲۰ اردیبهشت ۱۴۰۵</td><td>۵,۶۰۰,۰۰۰</td><td><span class="status-pill info">در حال پردازش</span></td></tr>
+                            {% for order in all_orders %}
+                            <tr data-status="{% if order.status == 'SHIPPED' %}shipping{% elif order.status == 'DELIVERED' %}delivered{% elif order.status == 'PENDING' %}pending{% elif order.status == 'PAID' %}active{% else %}{{ order.status|lower }}{% endif %}">
+                                <td><strong>#ORD-{{ order.id }}</strong></td>
+                                <td>{{ order.items.first.product.name|default:"-" }}</td>
+                                <td>{{ order.created_at|date:"Y/m/d" }}</td>
+                                <td>{{ order.total_price|floatformat:0|intcomma }}</td>
+                                <td><span class="status-pill {% if order.status == 'DELIVERED' %}success{% elif order.status == 'SHIPPED' %}info{% elif order.status == 'PENDING' %}warning{% elif order.status == 'CANCELLED' %}danger{% else %}info{% endif %}">{{ order.get_status_display }}</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="5">هیچ سفارشی یافت نشد</td></tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -1704,14 +1683,38 @@
                     <h1><span class="material-icons">confirmation_number</span> تیکت‌های پشتیبانی</h1>
                     <p>پیگیری درخواست‌ها و مشکلات</p>
                 </div>
-                <button class="btn btn-primary"><span class="material-icons">add</span> ثبت تیکت جدید</button>
+                <button class="btn btn-primary" onclick="document.getElementById('createTicketModal').style.display='flex'"><span class="material-icons">add</span> ثبت تیکت جدید</button>
             </div>
             <div class="card">
                 <div class="ticket-list">
-                    <div class="ticket-item"><div class="ticket-icon blue"><span class="material-icons">build</span></div><div class="ticket-info"><div class="ticket-title">مشکل در کالیبراسیون فشارسنج</div><div class="ticket-meta">#T-1045 • ۲ روز پیش</div></div><span class="status-pill info">در حال بررسی</span></div>
-                    <div class="ticket-item"><div class="ticket-icon orange"><span class="material-icons">local_shipping</span></div><div class="ticket-info"><div class="ticket-title">پیگیری ارسال سفارش #ORD-9123</div><div class="ticket-meta">#T-1040 • ۵ روز پیش</div></div><span class="status-pill warning">پاسخ داده شده</span></div>
-                    <div class="ticket-item"><div class="ticket-icon blue"><span class="material-icons">description</span></div><div class="ticket-info"><div class="ticket-title">درخواست فاکتور رسمی</div><div class="ticket-meta">#T-1032 • ۱ هفته پیش</div></div><span class="status-pill success">بسته شده</span></div>
-                    <div class="ticket-item"><div class="ticket-icon orange"><span class="material-icons">payment</span></div><div class="ticket-info"><div class="ticket-title">مشکل در پرداخت آنلاین</div><div class="ticket-meta">#T-1028 • ۲ هفته پیش</div></div><span class="status-pill success">بسته شده</span></div>
+                    {% for ticket in all_tickets %}
+                    <div class="ticket-item">
+                        <div class="ticket-icon blue"><span class="material-icons">{% if ticket.status == 'OPEN' %}build{% else %}check_circle{% endif %}</span></div>
+                        <div class="ticket-info">
+                            <div class="ticket-title">{{ ticket.subject }}</div>
+                            <div class="ticket-meta">#T-{{ ticket.id }} • {{ ticket.created_at|timesince }}</div>
+                        </div>
+                        <span class="status-pill {% if ticket.status == 'OPEN' %}info{% else %}success{% endif %}">{{ ticket.get_status_display }}</span>
+                    </div>
+                    {% empty %}
+                    <div class="ticket-item"><div class="ticket-info"><div class="ticket-title">تیکتی وجود ندارد</div></div></div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Create Ticket Modal -->
+            <div id="createTicketModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; align-items:center; justify-content:center; backdrop-filter:blur(4px);">
+                <div class="card" style="width:90%; max-width:500px; padding:28px;">
+                    <h3 style="margin-bottom:18px; display:flex; align-items:center; gap:8px; font-size:16px; color:var(--text-dark);"><span class="material-icons" style="color:var(--primary);">support_agent</span> ثبت تیکت جدید</h3>
+                    <form method="post" action="{% url 'dashboard_create_ticket' %}">
+                        {% csrf_token %}
+                        <div class="form-group"><label>موضوع</label><input type="text" name="subject" placeholder="موضوع تیکت را وارد کنید" required></div>
+                        <div class="form-group"><label>پیام</label><textarea name="message" placeholder="توضیحات خود را بنویسید..." required style="min-height:120px;"></textarea></div>
+                        <div style="display:flex; gap:8px; margin-top:18px;">
+                            <button type="submit" class="btn btn-primary"><span class="material-icons">send</span> ارسال تیکت</button>
+                            <button type="button" class="btn btn-outline" onclick="document.getElementById('createTicketModal').style.display='none'">انصراف</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -1725,46 +1728,31 @@
                 </div>
             </div>
             <div class="fav-grid">
+                {% for product in fav_products %}
                 <div class="fav-card">
-                    <div class="fav-img"><img src="/media/dasgahalaemhayati.jpeg" alt="مانیتور" loading="lazy"></div>
+                    <a href="{% url 'product_detail' product.id %}" style="text-decoration:none; color:inherit;">
+                        <div class="fav-img"><img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy"></div>
+                    </a>
                     <div class="fav-info">
-                        <div class="fav-name">مانیتور علائم حیاتی</div>
+                        <div class="fav-name">{{ product.name }}</div>
                         <div class="fav-bottom">
-                            <span class="fav-price">۴۲۰,۰۰۰,۰۰۰ ریال</span>
-                            <span class="material-icons cart-icon">shopping_cart</span>
+                            <span class="fav-price">{{ product.price|floatformat:0|intcomma }} ریال</span>
+                            <div style="display:flex; gap:4px;">
+                                <form method="post" action="{% url 'dashboard_add_to_cart' product.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="cart-icon" title="افزودن به سبد خرید" style="border:none; cursor:pointer;"><span class="material-icons" style="font-size:17px;">shopping_cart</span></button>
+                                </form>
+                                <form method="post" action="{% url 'dashboard_remove_favorite' product.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="cart-icon" title="حذف از علاقه‌مندی‌ها" style="border:none; cursor:pointer; background:#FEF2F2; color:#DC2626;"><span class="material-icons" style="font-size:17px;">close</span></button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="fav-card">
-                    <div class="fav-img"><img src="/media/sorang.jpeg" alt="پمپ" loading="lazy"></div>
-                    <div class="fav-info">
-                        <div class="fav-name">پمپ انفوزیون سرنگ</div>
-                        <div class="fav-bottom">
-                            <span class="fav-price">۱۸۰,۰۰۰,۰۰۰ ریال</span>
-                            <span class="material-icons cart-icon">shopping_cart</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="fav-card">
-                    <div class="fav-img"><img src="/media/portabl.jpeg" alt="ونتیلاتور" loading="lazy"></div>
-                    <div class="fav-info">
-                        <div class="fav-name">ونتیلاتور پرتابل</div>
-                        <div class="fav-bottom">
-                            <span class="fav-price">۸۵۰,۰۰۰,۰۰۰ ریال</span>
-                            <span class="material-icons cart-icon">shopping_cart</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="fav-card">
-                    <div class="fav-img"><img src="/media/tabasnj.jpeg" alt="تب‌سنج" loading="lazy"></div>
-                    <div class="fav-info">
-                        <div class="fav-name">تب‌سنج دیجیتال</div>
-                        <div class="fav-bottom">
-                            <span class="fav-price">۳,۲۰۰,۰۰۰ ریال</span>
-                            <span class="material-icons cart-icon">shopping_cart</span>
-                        </div>
-                    </div>
-                </div>
+                {% empty %}
+                <p>محصولی در علاقه‌مندی‌ها وجود ندارد</p>
+                {% endfor %}
             </div>
         </section>
 
@@ -1777,10 +1765,13 @@
                 </div>
             </div>
             <div class="card">
-                <div class="form-group"><label>نام و نام خانوادگی</label><input type="text" value="مریم حسنی"></div>
-                <div class="form-group"><label>شماره موبایل</label><input type="text" value="۰۹۱۲۳۴۵۶۷۸۹"></div>
-                <div class="form-group"><label>ایمیل</label><input type="email" value="maryam@example.com"></div>
-                <button class="btn btn-primary"><span class="material-icons">save</span> ذخیره تغییرات</button>
+                <form method="post" action="{% url 'dashboard_profile_update' %}">
+                    {% csrf_token %}
+                    <div class="form-group"><label>نام و نام خانوادگی</label><input type="text" name="full_name" value="{{ user.full_name }}"></div>
+                    <div class="form-group"><label>شماره موبایل</label><input type="text" value="{{ user.phone_number }}" disabled></div>
+                    <div class="form-group"><label>ایمیل</label><input type="email" name="email" value="{{ user.email|default:'' }}"></div>
+                    <button type="submit" class="btn btn-primary"><span class="material-icons">save</span> ذخیره تغییرات</button>
+                </form>
             </div>
         </section>
 
@@ -1791,22 +1782,37 @@
                     <h1><span class="material-icons">location_on</span> آدرس‌های من</h1>
                     <p>مدیریت آدرس‌های ارسال</p>
                 </div>
-                <button class="btn btn-primary"><span class="material-icons">add</span> افزودن آدرس جدید</button>
+                <button class="btn btn-primary" onclick="document.getElementById('addAddressModal').style.display='flex'"><span class="material-icons">add</span> افزودن آدرس جدید</button>
             </div>
             <div class="card">
+                {% for addr in addresses %}
                 <div class="address-card">
-                    <div class="address-text">تهران، خیابان ولیعصر، کوچه پزشکی، پلاک ۴۲، واحد ۷</div>
+                    <div class="address-text">{{ addr.street_address }}، {{ addr.city }}{% if addr.is_default %} <span class="status-pill info" style="margin-right:8px;">پیش‌فرض</span>{% endif %}</div>
                     <div class="address-actions">
-                        <button class="btn btn-outline" style="padding:6px 12px;"><span class="material-icons">edit</span></button>
-                        <button class="btn btn-outline" style="padding:6px 12px; color:#EF4444;"><span class="material-icons">delete</span></button>
+                        <form method="post" action="{% url 'dashboard_address_delete' addr.id %}" onsubmit="return confirm('آیا از حذف این آدرس مطمئن هستید؟');" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline" style="padding:6px 12px; color:#EF4444;"><span class="material-icons">delete</span></button>
+                        </form>
                     </div>
                 </div>
-                <div class="address-card">
-                    <div class="address-text">اصفهان، خیابان چهارباغ، ساختمان پزشکان، طبقه ۳</div>
-                    <div class="address-actions">
-                        <button class="btn btn-outline" style="padding:6px 12px;"><span class="material-icons">edit</span></button>
-                        <button class="btn btn-outline" style="padding:6px 12px; color:#EF4444;"><span class="material-icons">delete</span></button>
-                    </div>
+                {% empty %}
+                <p style="text-align:center; color:var(--text-medium); padding:20px;">آدرسی ثبت نشده است</p>
+                {% endfor %}
+            </div>
+
+            <!-- Add Address Modal -->
+            <div id="addAddressModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:500; align-items:center; justify-content:center; backdrop-filter:blur(4px);">
+                <div class="card" style="width:90%; max-width:440px; padding:28px;">
+                    <h3 style="margin-bottom:18px; display:flex; align-items:center; gap:8px; font-size:16px; color:var(--text-dark);"><span class="material-icons" style="color:var(--primary);">add_location</span> افزودن آدرس جدید</h3>
+                    <form method="post" action="{% url 'dashboard_address_add' %}">
+                        {% csrf_token %}
+                        <div class="form-group"><label>آدرس</label><input type="text" name="street_address" placeholder="خیابان، کوچه، پلاک، واحد" required></div>
+                        <div class="form-group"><label>شهر</label><input type="text" name="city" placeholder="نام شهر" required></div>
+                        <div style="display:flex; gap:8px; margin-top:18px;">
+                            <button type="submit" class="btn btn-primary"><span class="material-icons">save</span> ذخیره</button>
+                            <button type="button" class="btn btn-outline" onclick="document.getElementById('addAddressModal').style.display='none'">انصراف</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -1844,9 +1850,12 @@
                 </div>
                 <div class="card">
                     <h3 style="margin-bottom:14px; display:flex; align-items:center; gap:8px; font-size:15px; color:var(--text-dark);"><span class="material-icons" style="color:var(--primary);">email</span> ارسال پیام</h3>
-                    <div class="form-group"><label>موضوع</label><input type="text" placeholder="موضوع پیام"></div>
-                    <div class="form-group"><label>پیام</label><textarea placeholder="متن پیام خود را بنویسید..."></textarea></div>
-                    <button class="btn btn-primary"><span class="material-icons">send</span> ارسال</button>
+                    <form method="post" action="{% url 'dashboard_create_ticket' %}">
+                        {% csrf_token %}
+                        <div class="form-group"><label>موضوع</label><input type="text" name="subject" placeholder="موضوع پیام" required></div>
+                        <div class="form-group"><label>پیام</label><textarea name="message" placeholder="متن پیام خود را بنویسید..." required></textarea></div>
+                        <button type="submit" class="btn btn-primary"><span class="material-icons">send</span> ارسال</button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -1953,6 +1962,13 @@
             });
 
             console.log('✅ داشبورد مدرن - نسخه بازطراحی‌شده با هدر آبی و استایل پرجنب‌وجوش');
+
+            // Modal backdrop close
+            document.querySelectorAll('#addAddressModal, #createTicketModal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) this.style.display = 'none';
+                });
+            });
         })();
     </script>
 </body>
