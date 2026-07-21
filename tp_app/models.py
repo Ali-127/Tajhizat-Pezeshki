@@ -170,7 +170,6 @@ class TicketMessage(models.Model):
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    category = models.CharField(max_length=100, blank=True, null=True)
     blog_category = models.ForeignKey(
         BlogCategory,
         on_delete=models.SET_NULL,
@@ -187,6 +186,4 @@ class BlogPost(models.Model):
 
     @property
     def display_category(self):
-        if self.blog_category:
-            return self.blog_category.name
-        return self.category or "مقاله"
+        return self.blog_category.name if self.blog_category else "مقاله"

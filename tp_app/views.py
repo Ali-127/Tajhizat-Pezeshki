@@ -20,11 +20,11 @@ def landing_view(request):
     'latest_products': active_products.order_by('-created_at')[:5],
     'latest_posts': BlogPost.objects.select_related('author').order_by('-created_at')[:3],
   }
-  return render(request=request, template_name='landing.html', context=context)
+  return render(request, 'landing.html', context)
 
 
 def dashboard_view(request):
-  return render(request=request, template_name='dashboard.html')
+  return render(request, 'dashboard.html')
 
 
 def _get_pagination_range(page_obj, delta=2):
@@ -87,19 +87,15 @@ def shop_view(request):
     except Exception:
       pass
 
-  if stock == 'available':
-    products = products.filter(stock__gt=0)
-  elif stock == 'out_of_stock':
-    products = products.filter(stock__lte=0)
-
-  if warranty:
-    products = products.filter(warranty=True)
-  if after_sales:
-    products = products.filter(after_sales=True)
-  if fast_delivery:
-    products = products.filter(fast_delivery=True)
-  if installation:
-    products = products.filter(installation_training=True)
+  filters = {
+    'stock__gt': 0 if stock == 'available' else None,
+    'stock__lte': 0 if stock == 'out_of_stock' else None,
+    'warranty': True if warranty else None,
+    'after_sales': True if after_sales else None,
+    'fast_delivery': True if fast_delivery else None,
+    'installation_training': True if installation else None,
+  }
+  products = products.filter(**{k: v for k, v in filters.items() if v is not None})
 
   sort_map = {
     'newest': '-created_at',
@@ -150,10 +146,10 @@ def shop_view(request):
     'sort': sort,
     'favorite_product_ids': favorite_product_ids,
   }
-  return render(request=request, template_name='shop.html', context=context)
+  return render(request, 'shop.html', context)
 
 def about_view(request):
-  return render(request=request, template_name='darbarema.html')
+  return render(request, 'darbarema.html')
 
 def blog_view(request):
   search_query = request.GET.get('search', '').strip()
@@ -176,27 +172,19 @@ def blog_view(request):
     .order_by('-count', 'name')
   )
 
-  return render(
-    request=request,
-    template_name='weblog.html',
-    context={
-      'posts': posts,
-      'categories': categories,
-      'search_query': search_query,
-      'selected_category': selected_category,
-    },
-  )
+  return render(request, 'weblog.html', {
+    'posts': posts,
+    'categories': categories,
+    'search_query': search_query,
+    'selected_category': selected_category,
+  })
 
 def blog_post_view(request, post_id):
   post = get_object_or_404(
     BlogPost.objects.select_related('author', 'blog_category'),
     pk=post_id,
   )
-  return render(
-    request=request,
-    template_name='takweblog.html',
-    context={'post': post},
-  )
+  return render(request, 'takweblog.html', {'post': post})
 
 
 def product_detail_view(request, product_id):
@@ -206,14 +194,9 @@ def product_detail_view(request, product_id):
     is_active=True,
   )
   
-  is_favorite = False
-  if request.user.is_authenticated:
-    is_favorite = Favorites.objects.filter(user=request.user, product=product).exists()
+  is_favorite = request.user.is_authenticated and request.user.favorites.filter(product=product).exists()
 
-  return render(request=request, template_name='tkmhsul.html', context={
-    'product': product,
-    'is_favorite': is_favorite,
-  })
+  return render(request, 'tkmhsul.html', {'product': product, 'is_favorite': is_favorite})
 
 
 def cart_view(request):
@@ -225,43 +208,30 @@ def cart_view(request):
     user = User.objects.filter(phone_number=demo_phone).first()
 
   cart_items = []
-  total_items_price = 0
-  total_discount = 0
+  total_price = 0
 
   if user:
     cart, _ = Cart.objects.get_or_create(user=user)
-    items_qs = cart.items.select_related('product')
-    for ci in items_qs:
-      product = ci.product
-      # convert Decimal price to int for frontend calculations
-      try:
-        price = int(product.price)
-      except Exception:
-        price = int(Decimal(product.price))
-      discount = 0
+    for ci in cart.items.select_related('product'):
+      price = int(ci.product.price)
       qty = ci.quantity
-      original_total = price * qty
-      discounted_total = int(round(original_total * (1 - discount / 100)))
-      total_items_price += original_total
-      total_discount += (original_total - discounted_total)
+      item_total = price * qty
+      total_price += item_total
       cart_items.append({
         'id': ci.id,
-        'product': product,
+        'product': ci.product,
         'quantity': qty,
         'price': price,
-        'discount': discount,
-        'total': discounted_total,
+        'total': item_total,
       })
-
-  final_price = total_items_price - total_discount
 
   context = {
     'cart_items': cart_items,
-    'total_items_price': total_items_price,
-    'total_discount': total_discount,
-    'final_price': final_price,
+    'total_items_price': total_price,
+    'total_discount': 0,
+    'final_price': total_price,
   }
-  return render(request=request, template_name='sabadkharid.html', context=context)
+  return render(request, 'sabadkharid.html', context)
 
 
 def add_to_cart_view(request, product_id):
@@ -307,9 +277,7 @@ def favorites_view(request):
     next_path = request.get_full_path()
     return redirect(f"{reverse('auth')}?next={quote(next_path)}")
 
-  favorite_product_ids = list(
-    Favorites.objects.filter(user=request.user).values_list('product_id', flat=True)
-  )
+  favorite_product_ids = list(request.user.favorites.values_list('product_id', flat=True))
   products = Product.objects.filter(pk__in=favorite_product_ids).select_related('brand', 'category')
 
   page = request.GET.get('page', 1)
@@ -324,4 +292,4 @@ def favorites_view(request):
     'page_numbers': _get_pagination_range(page_obj),
     'favorite_product_ids': favorite_product_ids,
   }
-  return render(request=request, template_name='favorites.html', context=context)
+  return render(request, 'favorites.html', context)

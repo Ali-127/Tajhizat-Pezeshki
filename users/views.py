@@ -13,7 +13,6 @@ User = get_user_model()
 
 
 @ensure_csrf_cookie
-@ensure_csrf_cookie
 def auth_view(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
@@ -34,12 +33,11 @@ def send_otp_view(request):
     if mode == 'register' and not full_name:
         return JsonResponse({'error': 'invalid_name'}, status=400)
 
-    if mode == 'login':
-        if not User.objects.filter(phone_number=phone_number).exists():
-            return JsonResponse({
-                'error': 'unregistered',
-                'message': 'این شماره ثبت نشده است. لطفاً ابتدا در تب ثبت نام حساب کاربری ایجاد کنید.',
-            }, status=400)
+    if mode == 'login' and not User.objects.filter(phone_number=phone_number).exists():
+        return JsonResponse({
+            'error': 'unregistered',
+            'message': 'این شماره ثبت نشده است. لطفاً ابتدا در تب ثبت نام حساب کاربری ایجاد کنید.',
+        }, status=400)
 
     otp_code = '{:06d}'.format(random.randint(0, 999999))
     OTPToken.objects.filter(phone_number=phone_number).delete()
@@ -76,13 +74,7 @@ def verify_otp_view(request):
     if not token or timezone.now() - token.created_at > timedelta(minutes=10):
         return JsonResponse({'error': 'invalid_otp'}, status=400)
 
-    user, _ = User.objects.get_or_create(
-        phone_number=phone_number,
-        defaults={
-            'full_name': 'کاربر جدید',
-            'email': f'{phone_number}@example.com',
-        },
-    )
+    user = User.objects.get(phone_number=phone_number)
     user.backend = 'django.contrib.auth.backends.ModelBackend'
     login(request, user)
     OTPToken.objects.filter(phone_number=phone_number).delete()
@@ -95,7 +87,4 @@ def logout_view(request):
     return redirect('landing')
 
 
-def dashboard_view(request):
-    if not request.user.is_authenticated:
-        return redirect('auth')
-    return render(request, 'dashboard.html')
+

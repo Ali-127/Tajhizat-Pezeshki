@@ -2,13 +2,10 @@ import os
 import shutil
 
 from django.core.management.base import BaseCommand
-from django.utils import timezone
 from django.conf import settings
 
 from users.models import User
-from tp_app.models import BlogCategory, Brand, Category, Product, BlogPost
-from tp_app.models import Cart, CartItem
-
+from tp_app.models import BlogCategory, Brand, Category, Product, BlogPost, Cart, CartItem
 
 
 class Command(BaseCommand):
